@@ -34,6 +34,7 @@ schéma — příklady všude používají formát **JSON**.
    changes_api
    sprava_firem
    stitky_atributy_vazby
+   uzivatelske_tlacitko
    parovani_plateb
    kopie_tisky_qr
    workflow

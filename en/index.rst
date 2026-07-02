@@ -34,6 +34,7 @@ warehouse internals, etc.) or the XML schema — examples throughout use
    changes_api
    company_management
    labels_attributes_relations
+   custom_button
    payment_matching
    copy_reports_qr
    workflow
