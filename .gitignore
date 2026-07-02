@@ -1,0 +1,21 @@
+# Sphinx build output
+cs/_build/
+en/_build/
+_build/
+
+# Debian packaging build artifacts
+debian/abraflexi-api-doc-cs/
+debian/abraflexi-api-doc-en/
+debian/.debhelper/
+debian/doc-cs-html/
+debian/doc-en-html/
+debian/*.substvars
+debian/*.debhelper
+debian/*.debhelper.log
+debian/debhelper-build-stamp
+debian/files
+
+# OS
+.DS_Store
+Thumbs.db
+*~

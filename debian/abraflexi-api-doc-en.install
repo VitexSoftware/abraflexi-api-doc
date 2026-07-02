@@ -1,0 +1,4 @@
+debian/doc-en-html/* usr/share/doc/abraflexi-api-doc-en/html
+debian/abraflexi-api-doc-en.nginx usr/share/doc/abraflexi-api-doc-en/
+debian/io.github.vitexsoftware.abraflexi_api_doc_en.metainfo.xml usr/share/metainfo/
+debian/abraflexi-api-doc-en.svg usr/share/icons/hicolor/scalable/apps/

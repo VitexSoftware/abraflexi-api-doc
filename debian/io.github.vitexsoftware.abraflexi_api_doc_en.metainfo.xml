@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="generic">
+  <id>io.github.vitexsoftware.abraflexi_api_doc_en</id>
+  <icon type="stock">abraflexi-api-doc-en</icon>
+  <metadata_license>MIT</metadata_license>
+  <project_license>MIT</project_license>
+  <name>AbraFlexi REST API Documentation</name>
+  <summary>English HTML documentation for the AbraFlexi REST API</summary>
+  <description>
+    <p>
+      Sphinx-generated HTML documentation for the AbraFlexi (FlexiBee) REST
+      API, compiled and translated from the official documentation at
+      podpora.flexibee.eu. Covers authentication, building requests,
+      listing/filtering/queries, identifiers, writing data, validation and
+      errors, actions and locking, batch operations and transactions,
+      attachments, the Changes API, company management, labels/attributes/
+      relations, payment matching, document copying, printed reports, QR
+      codes, and workflow.
+    </p>
+  </description>
+  <url type="homepage">https://github.com/VitexSoftware/abraflexi-api-doc</url>
+  <url type="bugtracker">https://github.com/VitexSoftware/abraflexi-api-doc/issues</url>
+  <developer id="cz.vitexsoftware">
+    <name>Vítězslav Dvořák</name>
+  </developer>
+  <content_rating type="oars-1.1"/>
+</component>

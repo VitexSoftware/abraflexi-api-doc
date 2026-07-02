@@ -1,0 +1,19 @@
+#!/usr/bin/make -f
+
+%:
+	dh $@ --with apache2
+
+override_dh_auto_build:
+	sphinx-build -b html -D html_theme=shibuya -D pygments_style=default \
+		cs debian/doc-cs-html
+	sphinx-build -b html -D html_theme=shibuya -D pygments_style=default \
+		en debian/doc-en-html
+
+override_dh_auto_test:
+	true
+
+override_dh_auto_install:
+	true
+
+override_dh_auto_clean:
+	rm -rf debian/doc-cs-html debian/doc-en-html cs/_build en/_build

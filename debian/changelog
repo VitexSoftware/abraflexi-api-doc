@@ -1,0 +1,12 @@
+abraflexi-api-doc (1.0.0-1) unstable; urgency=medium
+
+  * Initial release: AbraFlexi REST API reference, compiled and translated
+    from podpora.flexibee.eu, in Czech (abraflexi-api-doc-cs) and English
+    (abraflexi-api-doc-en). Covers authentication, request building,
+    listing/filtering/queries, identifiers, writing data, validation and
+    error handling, actions and locking, batch operations and transactions,
+    attachments, the Changes API, company management, labels/attributes/
+    user relations, payment matching, document copying, printed reports,
+    QR codes and workflow.
+
+ -- Vítězslav Dvořák <info@vitexsoftware.cz>  Thu, 02 Jul 2026 07:45:00 +0200

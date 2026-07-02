@@ -1,0 +1,42 @@
+Source: abraflexi-api-doc
+Section: doc
+Priority: optional
+Maintainer: Vítězslav Dvořák <info@vitexsoftware.cz>
+Build-Depends: debhelper-compat (= 13),
+               dh-apache2 | apache2-dev,
+               python3-sphinx,
+               python3-shibuya-sphinx-theme
+Standards-Version: 4.7.0
+Homepage: https://github.com/VitexSoftware/abraflexi-api-doc
+Vcs-Git: https://github.com/VitexSoftware/abraflexi-api-doc.git
+Vcs-Browser: https://github.com/VitexSoftware/abraflexi-api-doc
+
+Package: abraflexi-api-doc-cs
+Section: doc
+Multi-Arch: foreign
+Architecture: all
+Depends: ${misc:Depends}
+Recommends: apache2 | nginx, ${misc:Recommends}
+Description: Dokumentace REST API AbraFlexi (česky)
+ Sphinx-generovaná HTML dokumentace REST API systému AbraFlexi (FlexiBee),
+ sestavená a přeložená z oficiální dokumentace na podpora.flexibee.eu a
+ ověřená proti referenční PHP knihovně AbraFlexi.
+ .
+ Apache2 konfigurační snippet se aktivuje automaticky při instalaci. Nginx
+ konfigurační snippet je nainstalován do /usr/share/doc/abraflexi-api-doc-cs/.
+
+Package: abraflexi-api-doc-en
+Section: doc
+Multi-Arch: foreign
+Architecture: all
+Depends: ${misc:Depends}
+Recommends: apache2 | nginx, ${misc:Recommends}
+Description: AbraFlexi REST API documentation (English)
+ Sphinx-generated HTML documentation for the AbraFlexi (FlexiBee) REST API,
+ compiled and translated from the official documentation at
+ podpora.flexibee.eu and cross-checked against the reference PHP AbraFlexi
+ library.
+ .
+ An Apache2 configuration snippet is enabled automatically on installation.
+ An Nginx configuration snippet is installed to
+ /usr/share/doc/abraflexi-api-doc-en/.

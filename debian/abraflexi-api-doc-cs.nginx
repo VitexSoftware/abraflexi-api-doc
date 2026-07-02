@@ -1,0 +1,5 @@
+location /abraflexi-api-doc-cs/ {
+    alias /usr/share/doc/abraflexi-api-doc-cs/html/;
+    index index.html;
+    try_files $uri $uri/ =404;
+}
