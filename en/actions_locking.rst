@@ -8,12 +8,30 @@ Instead of an ordinary create/update, an action can be triggered on a
 record via the ``action`` attribute (body-level, not a different HTTP
 method):
 
-.. code-block:: xml
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
 
-   <faktura-vydana action="delete">
-     <id>123</id>
-     <id>uuid:123456</id>
-   </faktura-vydana>
+   * - XML
+     - JSON
+   * - .. code-block:: xml
+
+          <faktura-vydana action="delete">
+            <id>123</id>
+            <id>uuid:123456</id>
+          </faktura-vydana>
+     - .. code-block:: json
+
+          {
+              "winstrom": {
+                  "faktura-vydana": [
+                      {
+                          "@action": "delete",
+                          "id": ["123", "uuid:123456"]
+                      }
+                  ]
+              }
+          }
 
 .. list-table::
    :header-rows: 1
@@ -38,21 +56,62 @@ point listing elements other than ``id``; records must already exist.
 Actions can also be triggered **in bulk** over a group of records via the
 ``filter`` attribute on the evidence (see :doc:`batch_transactions`):
 
-.. code-block:: xml
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
 
-   <faktura-vydana action="lock" filter="stavUhrK = 'stavUhr.uhrazeno' and typDokl = 'code:INTERNET'"/>
+   * - XML
+     - JSON
+   * - .. code-block:: xml
+
+          <faktura-vydana action="lock" filter="stavUhrK = 'stavUhr.uhrazeno' and typDokl = 'code:INTERNET'"/>
+     - .. code-block:: json
+
+          {
+              "winstrom": {
+                  "faktura-vydana": [
+                      {
+                          "@action": "lock",
+                          "@filter": "stavUhrK = 'stavUhr.uhrazeno' and typDokl = 'code:INTERNET'"
+                      }
+                  ]
+              }
+          }
 
 Actions on document line items (must nest through the parent document's
 item collection):
 
-.. code-block:: xml
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
 
-   <faktura-vydana>
-     <id>123</id>
-     <polozkyFaktury>
-       <faktura-vydana-polozka id="456" action="delete"/>
-     </polozkyFaktury>
-   </faktura-vydana>
+   * - XML
+     - JSON
+   * - .. code-block:: xml
+
+          <faktura-vydana>
+            <id>123</id>
+            <polozkyFaktury>
+              <faktura-vydana-polozka id="456" action="delete"/>
+            </polozkyFaktury>
+          </faktura-vydana>
+     - .. code-block:: json
+
+          {
+              "winstrom": {
+                  "faktura-vydana": [
+                      {
+                          "id": "123",
+                          "polozkyFaktury": [
+                              {
+                                  "id": "456",
+                                  "@action": "delete"
+                              }
+                          ]
+                      }
+                  ]
+              }
+          }
 
 Difference between ``action="delete"`` and the DELETE method
 --------------------------------------------------------------------
@@ -72,17 +131,52 @@ Record locking
 
 Same mechanism as general actions (see above):
 
-.. code-block:: xml
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
 
-   <faktura-vydana action="lock"><id>1</id></faktura-vydana>
-   <faktura-vydana action="lock-for-ucetni"><id>1</id></faktura-vydana>
-   <faktura-vydana action="unlock"><id>1</id></faktura-vydana>
+   * - XML
+     - JSON
+   * - .. code-block:: xml
+
+          <faktura-vydana action="lock"><id>1</id></faktura-vydana>
+          <faktura-vydana action="lock-for-ucetni"><id>1</id></faktura-vydana>
+          <faktura-vydana action="unlock"><id>1</id></faktura-vydana>
+     - .. code-block:: json
+
+          {
+              "winstrom": {
+                  "faktura-vydana": [
+                      {"@action": "lock", "id": "1"},
+                      {"@action": "lock-for-ucetni", "id": "1"},
+                      {"@action": "unlock", "id": "1"}
+                  ]
+              }
+          }
 
 In bulk via filter:
 
-.. code-block:: xml
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
 
-   <faktura-vydana action="lock" filter="stavUhrK = 'stavUhr.uhrazeno' and typDokl = 'code:INTERNET'"/>
+   * - XML
+     - JSON
+   * - .. code-block:: xml
+
+          <faktura-vydana action="lock" filter="stavUhrK = 'stavUhr.uhrazeno' and typDokl = 'code:INTERNET'"/>
+     - .. code-block:: json
+
+          {
+              "winstrom": {
+                  "faktura-vydana": [
+                      {
+                          "@action": "lock",
+                          "@filter": "stavUhrK = 'stavUhr.uhrazeno' and typDokl = 'code:INTERNET'"
+                      }
+                  ]
+              }
+          }
 
 Accounting period locks
 ----------------------------
@@ -109,14 +203,34 @@ Setting a lock: ``POST /c/{company}/zamek.xml`` with required ``zamekK``,
 (offers recv/issued), ``modulObp``/``modulObv`` (orders recv/issued),
 ``modulMaj`` (assets), ``modulLea`` (leasing), ``modulMzd`` (payroll).
 
-.. code-block:: xml
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
 
-   <zamek>
-     <zamekK>zamek.zamceno</zamekK>
-     <platiOdData>2022-01-01</platiOdData>
-     <platiDoData>2022-01-15</platiDoData>
-     <modulFap>true</modulFap>
-   </zamek>
+   * - XML
+     - JSON
+   * - .. code-block:: xml
+
+          <zamek>
+            <zamekK>zamek.zamceno</zamekK>
+            <platiOdData>2022-01-01</platiOdData>
+            <platiDoData>2022-01-15</platiDoData>
+            <modulFap>true</modulFap>
+          </zamek>
+     - .. code-block:: json
+
+          {
+              "winstrom": {
+                  "zamek": [
+                      {
+                          "zamekK": "zamek.zamceno",
+                          "platiOdData": "2022-01-01",
+                          "platiDoData": "2022-01-15",
+                          "modulFap": "true"
+                      }
+                  ]
+              }
+          }
 
 Deleting a lock: ``<zamek action="delete"><id>6</id></zamek>``.
 

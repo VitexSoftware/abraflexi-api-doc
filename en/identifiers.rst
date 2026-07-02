@@ -59,12 +59,29 @@ Multiple identifiers (must all point to the same record, else it's an
 error; non-existent ones are ignored — useful for incrementally attaching
 identifiers from external systems):
 
-.. code-block:: xml
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
 
-   <cenik>
-     <id>123</id>
-     <id>code:BOX</id>
-   </cenik>
+   * - XML
+     - JSON
+   * - .. code-block:: xml
+
+          <cenik>
+            <id>123</id>
+            <id>code:BOX</id>
+          </cenik>
+     - .. code-block:: json
+
+          {
+              "winstrom": {
+                  "cenik": [
+                      {
+                          "id": ["123", "code:BOX"]
+                      }
+                  ]
+              }
+          }
 
 Outside import XML (URLs, other fields), multiple identifiers are written
 with a special bracket syntax: ``[123][code:CZK][ext:SHOP:abc]`` (the
@@ -73,12 +90,29 @@ and the whole thing URL-encoded).
 
 Incrementally attaching further external identifiers to an existing record:
 
-.. code-block:: xml
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
 
-   <cenik id="123">
-     <id>ext:SHOP:abc</id>
-     <id>ext:SYSTEM3:xyz</id>
-   </cenik>
+   * - XML
+     - JSON
+   * - .. code-block:: xml
+
+          <cenik id="123">
+            <id>ext:SHOP:abc</id>
+            <id>ext:SYSTEM3:xyz</id>
+          </cenik>
+     - .. code-block:: json
+
+          {
+              "winstrom": {
+                  "cenik": [
+                      {
+                          "id": ["123", "ext:SHOP:abc", "ext:SYSTEM3:xyz"]
+                      }
+                  ]
+              }
+          }
 
 In JSON, a combined single-string form is also valid:
 ``"cenik": "[code:NIKON][123][ext:SHOP:abc]"``.
@@ -88,12 +122,30 @@ evidence element, whose value is the prefix of identifiers to remove (empty
 string = remove all; the ``ext:`` prefix itself doesn't need to be included
 in the value):
 
-.. code-block:: xml
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
 
-   <cenik removeExternalIds="SYSTEM">
-     <id>123</id>
-     <id>ext:SHOP:123</id>
-   </cenik>
+   * - XML
+     - JSON
+   * - .. code-block:: xml
+
+          <cenik removeExternalIds="SYSTEM">
+            <id>123</id>
+            <id>ext:SHOP:123</id>
+          </cenik>
+     - .. code-block:: json
+
+          {
+              "winstrom": {
+                  "cenik": [
+                      {
+                          "@removeExternalIds": "SYSTEM",
+                          "id": ["123", "ext:SHOP:123"]
+                      }
+                  ]
+              }
+          }
 
 For document line items, ``removeExternalIds`` can be given once for all
 items, or on a specific item (which takes precedence).

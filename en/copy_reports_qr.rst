@@ -8,13 +8,31 @@ The server can copy a document directly (more efficient and reliable than
 loading the full record client-side and re-inserting it) — via the
 ``sourceId`` attribute on the new element:
 
-.. code-block:: xml
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
 
-   <winstrom version="1.0">
-     <skladovy-pohyb sourceId="1179">
-       <datVyst>2022-09-11</datVyst>
-     </skladovy-pohyb>
-   </winstrom>
+   * - XML
+     - JSON
+   * - .. code-block:: xml
+
+          <winstrom version="1.0">
+            <skladovy-pohyb sourceId="1179">
+              <datVyst>2022-09-11</datVyst>
+            </skladovy-pohyb>
+          </winstrom>
+     - .. code-block:: json
+
+          {
+              "winstrom": {
+                  "skladovy-pohyb": [
+                      {
+                          "@sourceId": "1179",
+                          "datVyst": "2022-09-11"
+                      }
+                  ]
+              }
+          }
 
 ``sourceId`` is the id of the record to copy; any other fields given (here
 ``datVyst``) override the copy's values.

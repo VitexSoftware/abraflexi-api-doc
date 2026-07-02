@@ -4,19 +4,31 @@ Payment matching
 A bank (``banka``) or cash (``pokladni-pohyb``) document can be matched
 against one or more issued or received invoices.
 
-.. code-block:: xml
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
 
-   <banka>
-     <id>code:BANKA1</id>
-     <!-- other normal document fields allowed too -->
-     <sparovani>
-       <!-- repeat <uhrazovanaFak> per invoice paid; all invoices in one
-            <sparovani> must be same type (all faktura-vydana OR all
-            faktura-prijata) -->
-       <uhrazovanaFak type="faktura-vydana" castka="1000">code:FV1</uhrazovanaFak>
-       <zbytek>ignorovat</zbytek>
-     </sparovani>
-   </banka>
+   * - XML
+     - JSON
+   * - .. code-block:: xml
+
+          <banka>
+            <id>code:BANKA1</id>
+            <!-- other normal document fields allowed too -->
+            <sparovani>
+              <!-- repeat <uhrazovanaFak> per invoice paid; all invoices in one
+                   <sparovani> must be same type (all faktura-vydana OR all
+                   faktura-prijata) -->
+              <uhrazovanaFak type="faktura-vydana" castka="1000">code:FV1</uhrazovanaFak>
+              <zbytek>ignorovat</zbytek>
+            </sparovani>
+          </banka>
+     - .. code-block:: json
+
+          {"winstrom": {"banka": {"id": "code:BANKA1", "sparovani": {
+            "uhrazovanaFak": {"@castka": "1000", "@type": "faktura-vydana", "filter": "code:FV1"},
+            "zbytek": "ignorovat"
+          }}}}
 
 Multiple invoices can be paid in one ``<sparovani>`` (all must be the same
 type). Without a ``castka`` attribute, the invoice's full remaining balance
@@ -29,14 +41,8 @@ consumed in the order listed.
 
    **The JSON encoding differs** from the flat ``field@attr`` sibling-key
    convention used elsewhere (e.g. for labels). When an element needs both
-   attributes and a value, the value goes under a nested ``"filter"`` key:
-
-   .. code-block:: json
-
-      {"winstrom": {"banka": {"id": "code:BANKA1", "sparovani": {
-        "uhrazovanaFak": {"@castka": "500.0", "@type": "faktura-vydana", "filter": "code:FV2"},
-        "zbytek": "ignorovat"
-      }}}}
+   attributes and a value, the value goes under a nested ``"filter"`` key,
+   as shown above (``"uhrazovanaFak": {"@castka": ..., "@type": ..., "filter": ...}``).
 
 Remainder handling — the amounts don't match exactly
 -------------------------------------------------------------
@@ -86,14 +92,25 @@ is auto-converted at the rate implied by paying amount ÷ total invoiced amount.
 Unpairing
 -------------
 
-.. code-block:: xml
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
 
-   <banka>
-     <id>code:BANKA1</id>
-     <odparovani>
-       <uhrazovanaFak type="faktura-vydana">code:FV1</uhrazovanaFak>  <!-- optional, repeatable -->
-     </odparovani>
-   </banka>
+   * - XML
+     - JSON
+   * - .. code-block:: xml
+
+          <banka>
+            <id>code:BANKA1</id>
+            <odparovani>
+              <uhrazovanaFak type="faktura-vydana">code:FV1</uhrazovanaFak>  <!-- optional, repeatable -->
+            </odparovani>
+          </banka>
+     - .. code-block:: json
+
+          {"winstrom": {"banka": {"id": "code:BANKA1", "odparovani": {
+            "uhrazovanaFak": {"@type": "faktura-vydana", "filter": "code:FV1"}
+          }}}}
 
 If ``<uhrazovanaFak>`` is omitted entirely, everything linked to that
 document is unpaired. Matching is **idempotent** (safe to repeat).
@@ -130,17 +147,42 @@ Legacy REST-only endpoint (pre-XML-import matching, still supported)
 
    /c/{company}/parovani-uhrad
 
-.. code-block:: xml
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
 
-   <sparovani>
-     <uhrazovanaFak type="faktura-prijata">code:FP1</uhrazovanaFak>
-     <uhrazujiciDokl type="banka">code:BANKA1</uhrazujiciDokl>
-     <zbytek>ignorovat</zbytek>
-   </sparovani>
+   * - XML
+     - JSON
+   * - .. code-block:: xml
 
-.. code-block:: xml
+          <sparovani>
+            <uhrazovanaFak type="faktura-prijata">code:FP1</uhrazovanaFak>
+            <uhrazujiciDokl type="banka">code:BANKA1</uhrazujiciDokl>
+            <zbytek>ignorovat</zbytek>
+          </sparovani>
+     - .. code-block:: json
 
-   <odparovani>
-     <uhrazujiciDokl>code:foo</uhrazujiciDokl>  <!-- required -->
-     <uhrazovanaFak>code:bar</uhrazovanaFak>    <!-- optional, repeatable -->
-   </odparovani>
+          {"winstrom": {"sparovani": {
+            "uhrazovanaFak": {"@type": "faktura-prijata", "filter": "code:FP1"},
+            "uhrazujiciDokl": {"@type": "banka", "filter": "code:BANKA1"},
+            "zbytek": "ignorovat"
+          }}}
+
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
+
+   * - XML
+     - JSON
+   * - .. code-block:: xml
+
+          <odparovani>
+            <uhrazujiciDokl>code:foo</uhrazujiciDokl>  <!-- required -->
+            <uhrazovanaFak>code:bar</uhrazovanaFak>    <!-- optional, repeatable -->
+          </odparovani>
+     - .. code-block:: json
+
+          {"winstrom": {"odparovani": {
+            "uhrazujiciDokl": "code:foo",
+            "uhrazovanaFak": "code:bar"
+          }}}

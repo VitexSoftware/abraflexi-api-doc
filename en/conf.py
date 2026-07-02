@@ -4,8 +4,8 @@ project = "AbraFlexi REST API Reference"
 copyright = "2026, content adapted and translated from podpora.flexibee.eu, compiled by VitexSoftware"
 author = "VitexSoftware"
 
-version = "1.0"
-release = "1.0"
+version = "1.1"
+release = "1.1"
 
 extensions = []
 
@@ -16,6 +16,16 @@ html_theme = "alabaster"
 html_static_path = ["_static"]
 html_logo = "_static/abraflexi.svg"
 html_favicon = "_static/abraflexi.svg"
+
+# "Edit this page" link (rendered by the shibuya theme used for the
+# packaged docs; harmless no-op under alabaster).
+html_context = {
+    "source_type": "github",
+    "source_user": "VitexSoftware",
+    "source_repo": "abraflexi-api-doc",
+    "source_version": "main",
+    "source_docs_path": "/en/",
+}
 
 # Compatibility shim: the installed shibuya theme hardcodes pygments style
 # names ("github-light-default"/"github-dark-default") that only exist in

@@ -75,13 +75,26 @@ má nová vycházet, přes ``<puvodniNastaveni><id>1</id></puvodniNastaveni>``
 a ``<platiOdData>...</platiOdData>``; neuvedené hodnoty zůstanou stejné jako
 v odkazované verzi:
 
-.. code-block:: xml
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
 
-   <nastaveni>
-     <puvodniNastaveni><id>1</id></puvodniNastaveni>
-     <platiOdData>2021-12-29</platiOdData>
-     <uliceNazev>Přestěhovaná</uliceNazev>
-   </nastaveni>
+   * - XML
+     - JSON
+   * - .. code-block:: xml
+
+          <nastaveni>
+            <puvodniNastaveni><id>1</id></puvodniNastaveni>
+            <platiOdData>2021-12-29</platiOdData>
+            <uliceNazev>Přestěhovaná</uliceNazev>
+          </nastaveni>
+     - .. code-block:: json
+
+          {"winstrom": {"nastaveni": [{
+              "puvodniNastaveni": {"id": "1"},
+              "platiOdData": "2021-12-29",
+              "uliceNazev": "Přestěhovaná"
+          }]}}
 
 Vložení nové *počáteční* (nejstarší) verze nastavení před stávající první:
 ``prvniNastaveni=true`` + ``prvniNastaveniPlatiDoData=`` (konečné datum nové

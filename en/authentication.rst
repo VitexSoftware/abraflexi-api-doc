@@ -172,17 +172,40 @@ Users as an evidence
 Users are a normal evidence (``uzivatel``); creating a new user additionally
 requires matching ``password``/``passwordAgain``:
 
-.. code-block:: xml
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
 
-   <uzivatel>
-     <id>code:einstein</id>
-     <kod>einstein</kod>
-     <jmeno>Albert</jmeno>
-     <prijmeni>Einstein</prijmeni>
-     <password>password</password>
-     <passwordAgain>password</passwordAgain>
-     <role>code:JENCIST</role>
-   </uzivatel>
+   * - XML
+     - JSON
+   * - .. code-block:: xml
+
+          <uzivatel>
+            <id>code:einstein</id>
+            <kod>einstein</kod>
+            <jmeno>Albert</jmeno>
+            <prijmeni>Einstein</prijmeni>
+            <password>password</password>
+            <passwordAgain>password</passwordAgain>
+            <role>code:JENCIST</role>
+          </uzivatel>
+     - .. code-block:: json
+
+          {
+              "winstrom": {
+                  "uzivatel": [
+                      {
+                          "id": "code:einstein",
+                          "kod": "einstein",
+                          "jmeno": "Albert",
+                          "prijmeni": "Einstein",
+                          "password": "password",
+                          "passwordAgain": "password",
+                          "role": "code:JENCIST"
+                      }
+                  ]
+              }
+          }
 
 Last login is tracked in ``lastLoginDate`` (regular users) /
 ``lastApiDate`` (API users), visible via ``GET /u.json?detail=full``

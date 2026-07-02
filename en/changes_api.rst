@@ -37,9 +37,24 @@ Getting the current global version
 Any export can include the current global version via
 ``?add-global-version=true``:
 
-.. code-block:: xml
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
 
-   <winstrom version="1.0" globalVersion="6">...</winstrom>
+   * - XML
+     - JSON
+   * - .. code-block:: xml
+
+          <winstrom version="1.0" globalVersion="6">...</winstrom>
+     - .. code-block:: json
+
+          {
+              "winstrom": {
+                  "@version": "1.0",
+                  "@globalVersion": "6",
+                  "...": "..."
+              }
+          }
 
 Getting change records
 ---------------------------
@@ -48,21 +63,42 @@ Getting change records
 
    GET /c/{company}/changes.xml
 
-.. code-block:: xml
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
 
-   <winstrom version="1.0" globalVersion="6">
-     <faktura-vydana in-version="3" operation="create" timestamp="2019-01-01 00:00:00.0">
-       <id>1</id>
-     </faktura-vydana>
-     <faktura-vydana-polozka in-version="4" operation="create" timestamp="2019-06-07 12:34:56.7">
-       <id>1</id>
-     </faktura-vydana-polozka>
-     <faktura-vydana in-version="5" operation="update" timestamp="2019-06-07 12:34:56.7">
-       <id>1</id>
-       <id>code:VF1-0001/2012</id>
-     </faktura-vydana>
-     <next>6</next>
-   </winstrom>
+   * - XML
+     - JSON
+   * - .. code-block:: xml
+
+          <winstrom version="1.0" globalVersion="6">
+            <faktura-vydana in-version="3" operation="create" timestamp="2019-01-01 00:00:00.0">
+              <id>1</id>
+            </faktura-vydana>
+            <faktura-vydana-polozka in-version="4" operation="create" timestamp="2019-06-07 12:34:56.7">
+              <id>1</id>
+            </faktura-vydana-polozka>
+            <faktura-vydana in-version="5" operation="update" timestamp="2019-06-07 12:34:56.7">
+              <id>1</id>
+              <id>code:VF1-0001/2012</id>
+            </faktura-vydana>
+            <next>6</next>
+          </winstrom>
+     - .. code-block:: json
+
+          {
+            "winstrom": {
+              "@globalVersion": "8",
+              "changes": [
+                {"@evidence": "faktura-vydana", "@in-version": "3", "@operation": "create",
+                 "@timestamp": "2019-01-01 00:00:00.0", "id": "1", "external-ids": []},
+                {"@evidence": "faktura-vydana", "@in-version": "5", "@operation": "update",
+                 "@timestamp": "2019-06-07 12:34:56.7", "id": "1",
+                 "external-ids": ["code:VF1-0001/2012"]}
+              ],
+              "next": "6"
+            }
+          }
 
 Each element carries the numeric ``<id>`` and code (``<id>code:CODE</id>``);
 if the object had any external ids at the time of the operation, those are
@@ -85,24 +121,6 @@ Listing parameters:
      - how many records to list; default 100, maximum 1000.
    * - ``evidence=faktura-vydana``
      - which evidences to list changes for; repeatable, defaults to all.
-
-In JSON:
-
-.. code-block:: json
-
-   {
-     "winstrom": {
-       "@globalVersion": "8",
-       "changes": [
-         {"@evidence": "faktura-vydana", "@in-version": "3", "@operation": "create",
-          "@timestamp": "2019-01-01 00:00:00.0", "id": "1", "external-ids": []},
-         {"@evidence": "faktura-vydana", "@in-version": "5", "@operation": "update",
-          "@timestamp": "2019-06-07 12:34:56.7", "id": "1",
-          "external-ids": ["code:VF1-0001/2012"]}
-       ],
-       "next": "6"
-     }
-   }
 
 Synchronizing external systems
 ------------------------------------

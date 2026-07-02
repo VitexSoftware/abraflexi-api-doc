@@ -8,13 +8,25 @@ Jedním elementem lze aktualizovat, nebo na něm vyvolat akci, u více
 záznamů najednou pomocí atributu ``filter`` na úrovni evidence — filtrovací
 jazyk je stejný jako u URL filtrů (viz :doc:`vypis_filtrovani`):
 
-.. code-block:: xml
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
 
-   <winstrom version="1.0">
-     <cenik filter="dodavatel = 'code:FIRMA'">
-       <stitky>VIP</stitky>
-     </cenik>
-   </winstrom>
+   * - XML
+     - JSON
+   * - .. code-block:: xml
+
+          <winstrom version="1.0">
+            <cenik filter="dodavatel = 'code:FIRMA'">
+              <stitky>VIP</stitky>
+            </cenik>
+          </winstrom>
+     - .. code-block:: json
+
+          {"winstrom": {"@version": "1.0", "cenik": {
+              "@filter": "dodavatel = 'code:FIRMA'",
+              "stitky": "VIP"
+          }}}
 
 Přidá štítek VIP všem položkám ceníku od dodavatele FIRMA. Chová se, jako
 by místo jednoho elementu s ``filter`` bylo uvedeno tolik elementů, kolik
@@ -43,12 +55,24 @@ Transakční zpracování
 Ve výchozím stavu je celý import jednou databázovou transakcí — buď se
 uloží vše, nebo nic.
 
-.. code-block:: xml
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
 
-   <winstrom version="1.0" atomic="false">
-     <faktura-vydana><id>code:123</id>...</faktura-vydana>
-     <faktura-vydana><id>code:456</id>...</faktura-vydana>
-   </winstrom>
+   * - XML
+     - JSON
+   * - .. code-block:: xml
+
+          <winstrom version="1.0" atomic="false">
+            <faktura-vydana><id>code:123</id>...</faktura-vydana>
+            <faktura-vydana><id>code:456</id>...</faktura-vydana>
+          </winstrom>
+     - .. code-block:: json
+
+          {"winstrom": {"@version": "1.0", "@atomic": "false", "faktura-vydana": [
+              {"id": "code:123", "...": "..."},
+              {"id": "code:456", "...": "..."}
+          ]}}
 
 Atributem ``atomic="false"`` se každý *hlavní* záznam importuje ve vlastní
 transakci (v příkladu výše proběhnou dvě transakce, jedna pro fakturu 123

@@ -49,42 +49,47 @@ another object (can't be a root tag), and only metadata can be changed, not
 the attachment's data itself. Use the parent evidence's endpoint for this
 (e.g. ``/c/company/faktura-vydana.xml``), not the binary endpoint above.
 
-.. code-block:: xml
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
 
-   <winstrom>
-     <faktura-vydana>
-       <id>11925</id>
-       <prilohy>
-         <priloha update="ignore">
-           <id>ext:DPH-KONTROLA:faktura-vydana:11925</id>
-           <contentType>text/html</contentType>
-           <nazSoub>vies-CZ18239617-2023-01-19.html</nazSoub>
-           <typK>typPrilohy.ostatni</typK>
-           <content encoding="base64">PGh0bWw+PG...</content>
-         </priloha>
-       </prilohy>
-     </faktura-vydana>
-   </winstrom>
+   * - XML
+     - JSON
+   * - .. code-block:: xml
 
-.. code-block:: json
+          <winstrom>
+            <faktura-vydana>
+              <id>11925</id>
+              <prilohy>
+                <priloha update="ignore">
+                  <id>ext:DPH-KONTROLA:faktura-vydana:11925</id>
+                  <contentType>text/html</contentType>
+                  <nazSoub>vies-CZ18239617-2023-01-19.html</nazSoub>
+                  <typK>typPrilohy.ostatni</typK>
+                  <content encoding="base64">PGh0bWw+PG...</content>
+                </priloha>
+              </prilohy>
+            </faktura-vydana>
+          </winstrom>
+     - .. code-block:: json
 
-   {
-     "winstrom": {
-       "faktura-vydana": {
-         "id": "11925",
-         "prilohy": {
-           "priloha": {
-             "id": "ext:DPH-KONTROLA:faktura-vydana:11925",
-             "contentType": "text/html",
-             "nazSoub": "vies-CZ18239617-2023-01-19.html",
-             "typK": "typPrilohy.ostatni",
-             "content@encoding": "base64",
-             "content": "PGh0bWw+PG..."
-           }
-         }
-       }
-     }
-   }
+          {
+            "winstrom": {
+              "faktura-vydana": {
+                "id": "11925",
+                "prilohy": {
+                  "priloha": {
+                    "id": "ext:DPH-KONTROLA:faktura-vydana:11925",
+                    "contentType": "text/html",
+                    "nazSoub": "vies-CZ18239617-2023-01-19.html",
+                    "typK": "typPrilohy.ostatni",
+                    "content@encoding": "base64",
+                    "content": "PGh0bWw+PG..."
+                  }
+                }
+              }
+            }
+          }
 
 .. note::
 

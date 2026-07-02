@@ -37,6 +37,8 @@ schéma — příklady všude používají formát **JSON**.
    parovani_plateb
    kopie_tisky_qr
    workflow
+   seznam_evidenci
+   prava_agend
 
 Rychlý přehled
 ------------------

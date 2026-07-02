@@ -7,12 +7,23 @@ Provádění akcí
 Místo běžného vytvoření/změny lze na záznamu vyvolat akci pomocí atributu
 ``action`` (tělo požadavku, ne jiná HTTP metoda):
 
-.. code-block:: xml
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
 
-   <faktura-vydana action="delete">
-     <id>123</id>
-     <id>uuid:123456</id>
-   </faktura-vydana>
+   * - XML
+     - JSON
+   * - .. code-block:: xml
+
+          <faktura-vydana action="delete">
+            <id>123</id>
+            <id>uuid:123456</id>
+          </faktura-vydana>
+     - .. code-block:: json
+
+          {"winstrom": {"faktura-vydana": [
+              {"@action": "delete", "id": ["123", "uuid:123456"]}
+          ]}}
 
 .. list-table::
    :header-rows: 1
@@ -37,21 +48,47 @@ uvádět jiné elementy než ``id``; záznamy musí již existovat.
 Akce lze vyvolat i **hromadně** nad skupinou záznamů pomocí atributu
 ``filter`` na evidenci (viz :doc:`davky_transakce`):
 
-.. code-block:: xml
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
 
-   <faktura-vydana action="lock" filter="stavUhrK = 'stavUhr.uhrazeno' and typDokl = 'code:INTERNET'"/>
+   * - XML
+     - JSON
+   * - .. code-block:: xml
+
+          <faktura-vydana action="lock" filter="stavUhrK = 'stavUhr.uhrazeno' and typDokl = 'code:INTERNET'"/>
+     - .. code-block:: json
+
+          {"winstrom": {"faktura-vydana": {
+              "@action": "lock",
+              "@filter": "stavUhrK = 'stavUhr.uhrazeno' and typDokl = 'code:INTERNET'"
+          }}}
 
 Akce na položkách dokladu (nutné zanořit přes kolekci položek nadřazeného
 dokladu):
 
-.. code-block:: xml
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
 
-   <faktura-vydana>
-     <id>123</id>
-     <polozkyFaktury>
-       <faktura-vydana-polozka id="456" action="delete"/>
-     </polozkyFaktury>
-   </faktura-vydana>
+   * - XML
+     - JSON
+   * - .. code-block:: xml
+
+          <faktura-vydana>
+            <id>123</id>
+            <polozkyFaktury>
+              <faktura-vydana-polozka id="456" action="delete"/>
+            </polozkyFaktury>
+          </faktura-vydana>
+     - .. code-block:: json
+
+          {"winstrom": {"faktura-vydana": [{
+              "id": "123",
+              "polozkyFaktury": [
+                  {"id": "456", "@action": "delete"}
+              ]
+          }]}}
 
 Rozdíl mezi ``action="delete"`` a metodou DELETE
 ------------------------------------------------------
@@ -71,17 +108,40 @@ Zamykání a odemykání záznamů
 
 Stejný mechanismus jako obecné akce (viz výše):
 
-.. code-block:: xml
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
 
-   <faktura-vydana action="lock"><id>1</id></faktura-vydana>
-   <faktura-vydana action="lock-for-ucetni"><id>1</id></faktura-vydana>
-   <faktura-vydana action="unlock"><id>1</id></faktura-vydana>
+   * - XML
+     - JSON
+   * - .. code-block:: xml
+
+          <faktura-vydana action="lock"><id>1</id></faktura-vydana>
+          <faktura-vydana action="lock-for-ucetni"><id>1</id></faktura-vydana>
+          <faktura-vydana action="unlock"><id>1</id></faktura-vydana>
+     - .. code-block:: json
+
+          {"winstrom": {"faktura-vydana": [{"@action": "lock", "id": "1"}]}}
+          {"winstrom": {"faktura-vydana": [{"@action": "lock-for-ucetni", "id": "1"}]}}
+          {"winstrom": {"faktura-vydana": [{"@action": "unlock", "id": "1"}]}}
 
 Hromadně přes filtr:
 
-.. code-block:: xml
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
 
-   <faktura-vydana action="lock" filter="stavUhrK = 'stavUhr.uhrazeno' and typDokl = 'code:INTERNET'"/>
+   * - XML
+     - JSON
+   * - .. code-block:: xml
+
+          <faktura-vydana action="lock" filter="stavUhrK = 'stavUhr.uhrazeno' and typDokl = 'code:INTERNET'"/>
+     - .. code-block:: json
+
+          {"winstrom": {"faktura-vydana": {
+              "@action": "lock",
+              "@filter": "stavUhrK = 'stavUhr.uhrazeno' and typDokl = 'code:INTERNET'"
+          }}}
 
 Zamykání účetních období
 ------------------------------
@@ -109,14 +169,28 @@ Nastavení zámku: ``POST /c/{firma}/zamek.xml`` s povinným ``zamekK``,
 (objednávky přij./vyd.), ``modulMaj`` (majetek), ``modulLea`` (leasing),
 ``modulMzd`` (mzdy).
 
-.. code-block:: xml
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
 
-   <zamek>
-     <zamekK>zamek.zamceno</zamekK>
-     <platiOdData>2022-01-01</platiOdData>
-     <platiDoData>2022-01-15</platiDoData>
-     <modulFap>true</modulFap>
-   </zamek>
+   * - XML
+     - JSON
+   * - .. code-block:: xml
+
+          <zamek>
+            <zamekK>zamek.zamceno</zamekK>
+            <platiOdData>2022-01-01</platiOdData>
+            <platiDoData>2022-01-15</platiDoData>
+            <modulFap>true</modulFap>
+          </zamek>
+     - .. code-block:: json
+
+          {"winstrom": {"zamek": [{
+              "zamekK": "zamek.zamceno",
+              "platiOdData": "2022-01-01",
+              "platiDoData": "2022-01-15",
+              "modulFap": "true"
+          }]}}
 
 Smazání zámku: ``<zamek action="delete"><id>6</id></zamek>``.
 

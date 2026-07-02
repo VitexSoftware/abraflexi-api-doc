@@ -37,12 +37,31 @@ Incremental (partial) update
 On update, only include the attributes you want to change. An explicitly
 empty element deletes that field's value:
 
-.. code-block:: xml
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
 
-   <cenik id="123">
-     <nazevA>New name</nazevA>
-     <ean/>  <!-- clears the value -->
-   </cenik>
+   * - XML
+     - JSON
+   * - .. code-block:: xml
+
+          <cenik id="123">
+            <nazevA>New name</nazevA>
+            <ean/>  <!-- clears the value -->
+          </cenik>
+     - .. code-block:: json
+
+          {
+              "winstrom": {
+                  "cenik": [
+                      {
+                          "id": "123",
+                          "nazevA": "New name",
+                          "ean": ""
+                      }
+                  ]
+              }
+          }
 
 Line items (e.g. invoice lines): if an item has no identifier, it's matched
 by POSITION — risky for updates (inserting at the front shifts everything
@@ -52,21 +71,26 @@ external identifier if possible.
 Updating items without identifiers always APPENDS new rows. To fully
 replace a collection (delete anything not listed), use ``removeAll="true"``:
 
-.. code-block:: xml
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
 
-   <faktura-vydana id="123">
-     <polozkyFaktury removeAll="true">
-       <faktura-vydana-polozka><id>14</id>...</faktura-vydana-polozka>
-     </polozkyFaktury>
-   </faktura-vydana>
+   * - XML
+     - JSON
+   * - .. code-block:: xml
 
-.. code-block:: json
+          <faktura-vydana id="123">
+            <polozkyFaktury removeAll="true">
+              <faktura-vydana-polozka><id>14</id>...</faktura-vydana-polozka>
+            </polozkyFaktury>
+          </faktura-vydana>
+     - .. code-block:: json
 
-   {"winstrom": {"faktura-vydana": [{
-     "id": "123",
-     "polozkyFaktury@removeAll": "true",
-     "polozkyFaktury": [{"id": "14", "...": "..."}]
-   }]}}
+          {"winstrom": {"faktura-vydana": [{
+            "id": "123",
+            "polozkyFaktury@removeAll": "true",
+            "polozkyFaktury": [{"id": "14", "...": "..."}]
+          }]}}
 
 Everything not listed gets deleted; listed items are updated/created.
 Direct deletion of specific items: ``action="delete"`` (see
@@ -105,9 +129,28 @@ record already exists:
      - ``ok`` (default)
      - If the record exists, update it normally.
 
-.. code-block:: xml
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
 
-   <faktura-vydana update="ignore"><id>123</id>...</faktura-vydana>
+   * - XML
+     - JSON
+   * - .. code-block:: xml
+
+          <faktura-vydana update="ignore"><id>123</id>...</faktura-vydana>
+     - .. code-block:: json
+
+          {
+              "winstrom": {
+                  "faktura-vydana": [
+                      {
+                          "@update": "ignore",
+                          "id": "123",
+                          "...": "..."
+                      }
+                  ]
+              }
+          }
 
 A similar mechanism exists for **relation fields** via the ``if-not-found``
 attribute on the relation element:
@@ -131,9 +174,21 @@ attribute on the relation element:
        evidences); only fills in ``kod``/``nazev`` from the reference value
        — can't be used if the target evidence has other required fields.
 
-.. code-block:: xml
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
 
-   <firma if-not-found="null">code:FIRMA</firma>
+   * - XML
+     - JSON
+   * - .. code-block:: xml
+
+          <firma if-not-found="null">code:FIRMA</firma>
+     - .. code-block:: json
+
+          {
+              "firma@if-not-found": "null",
+              "firma": "code:FIRMA"
+          }
 
 Previous value — reacting only to a real change
 ------------------------------------------------------
@@ -142,12 +197,32 @@ Used together with ``?dry-run=true`` when building interactive edit forms:
 the server only runs a field's dependent-value cascade (see above) if the
 value actually *changed* relative to what the client last saw.
 
-.. code-block:: xml
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
 
-   <faktura-vydana id="123">
-     <firma previousValue="code:OTHER COMPANY">code:FIRMA</firma>
-     <nazFirmy>Other company</nazFirmy>  <!-- stale value from the form -->
-   </faktura-vydana>
+   * - XML
+     - JSON
+   * - .. code-block:: xml
+
+          <faktura-vydana id="123">
+            <firma previousValue="code:OTHER COMPANY">code:FIRMA</firma>
+            <nazFirmy>Other company</nazFirmy>  <!-- stale value from the form -->
+          </faktura-vydana>
+     - .. code-block:: json
+
+          {
+              "winstrom": {
+                  "faktura-vydana": [
+                      {
+                          "id": "123",
+                          "firma-previousValue": "code:OTHER COMPANY",
+                          "firma": "code:FIRMA",
+                          "nazFirmy": "Other company"
+                      }
+                  ]
+              }
+          }
 
 The response recomputes ``nazFirmy`` to match the new ``firma`` (returns
 ``Company``), because the server detected a real change. Without

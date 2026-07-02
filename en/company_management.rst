@@ -76,13 +76,32 @@ it's based on via ``<puvodniNastaveni><id>1</id></puvodniNastaveni>`` and
 ``<platiOdData>...</platiOdData>``; unlisted fields stay the same as the
 referenced version:
 
-.. code-block:: xml
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
 
-   <nastaveni>
-     <puvodniNastaveni><id>1</id></puvodniNastaveni>
-     <platiOdData>2021-12-29</platiOdData>
-     <uliceNazev>Relocated Street</uliceNazev>
-   </nastaveni>
+   * - XML
+     - JSON
+   * - .. code-block:: xml
+
+          <nastaveni>
+            <puvodniNastaveni><id>1</id></puvodniNastaveni>
+            <platiOdData>2021-12-29</platiOdData>
+            <uliceNazev>Relocated Street</uliceNazev>
+          </nastaveni>
+     - .. code-block:: json
+
+          {
+              "winstrom": {
+                  "nastaveni": [
+                      {
+                          "puvodniNastaveni": {"id": "1"},
+                          "platiOdData": "2021-12-29",
+                          "uliceNazev": "Relocated Street"
+                      }
+                  ]
+              }
+          }
 
 To insert a new *earliest* settings version before the current first one,
 use ``prvniNastaveni=true`` + ``prvniNastaveniPlatiDoData=`` (end date for

@@ -1,3 +1,22 @@
+abraflexi-api-doc (1.1.0-1) unstable; urgency=medium
+
+  * Add a JSON column alongside every XML API-payload example, laid out
+    side by side in a two-column table, so both wire formats can be
+    compared at a glance
+  * Add appendix: reference list of all AbraFlexi evidence codes with
+    descriptive names, sourced from php-spojenet-abraflexi's
+    EvidenceList.json
+  * Add appendix: default agenda access rights per user role, sourced
+    from Flexplorer's permissions.csv
+  * Add an "Edit this page" link to every page (rendered by the shibuya
+    theme used for the packaged docs), pointing at the page's source file
+    on GitHub
+  * Show the documentation version in the page footer
+  * Link the php-abraflexi and python-abraflexi client library projects
+    from the README
+
+ -- Vítězslav Dvořák <info@vitexsoftware.cz>  Thu, 02 Jul 2026 11:30:00 +0200
+
 abraflexi-api-doc (1.0.1-1) unstable; urgency=medium
 
   * Add the AbraFlexi logo as both the AppStream icon (installed per-package

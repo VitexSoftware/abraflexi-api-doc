@@ -18,21 +18,48 @@ without saving, use ``?dry-run=true`` (see :doc:`requests`).
 
 Example response with a warning and an info:
 
-.. code-block:: xml
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
 
-   <winstrom version="1.0">
-     <success>true</success>
-     <result>
-       <id>105</id>
-       <warnings>
-         <warning for="radekDph">The record has no VAT line filled in, so the document won't be posted.</warning>
-       </warnings>
-       <infos>
-         <info>A serial number was auto-selected.</info>
-       </infos>
-     </result>
-     <result><id>103</id></result>
-   </winstrom>
+   * - XML
+     - JSON
+   * - .. code-block:: xml
+
+          <winstrom version="1.0">
+            <success>true</success>
+            <result>
+              <id>105</id>
+              <warnings>
+                <warning for="radekDph">The record has no VAT line filled in, so the document won't be posted.</warning>
+              </warnings>
+              <infos>
+                <info>A serial number was auto-selected.</info>
+              </infos>
+            </result>
+            <result><id>103</id></result>
+          </winstrom>
+     - .. code-block:: json
+
+          {
+              "winstrom": {
+                  "success": true,
+                  "results": [
+                      {
+                          "id": "105",
+                          "warnings": [
+                              {"for": "radekDph", "message": "The record has no VAT line filled in, so the document won't be posted."}
+                          ],
+                          "infos": [
+                              {"message": "A serial number was auto-selected."}
+                          ]
+                      },
+                      {
+                          "id": "103"
+                      }
+                  ]
+              }
+          }
 
 The ``for`` attribute on ``<warning>`` points to the field the message
 concerns.
@@ -73,15 +100,34 @@ Error handling — HTTP status codes
 
 Example error response:
 
-.. code-block:: xml
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
 
-   <?xml version="1.0"?>
-   <winstrom version="1.0">
-     <success>false</success>
-     <result>
-       <id>105</id>
-       <error>A numeric ID was expected, but 'null' is not a number</error>
-     </result>
-   </winstrom>
+   * - XML
+     - JSON
+   * - .. code-block:: xml
+
+          <?xml version="1.0"?>
+          <winstrom version="1.0">
+            <success>false</success>
+            <result>
+              <id>105</id>
+              <error>A numeric ID was expected, but 'null' is not a number</error>
+            </result>
+          </winstrom>
+     - .. code-block:: json
+
+          {
+              "winstrom": {
+                  "success": false,
+                  "results": [
+                      {
+                          "id": "105",
+                          "error": "A numeric ID was expected, but 'null' is not a number"
+                      }
+                  ]
+              }
+          }
 
 The error message format is the same as the validation message format above.

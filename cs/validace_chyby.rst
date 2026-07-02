@@ -17,21 +17,48 @@ ověření bez uložení použijte ``?dry-run=true`` (viz :doc:`pozadavky`).
 
 Ukázka odpovědi s varováním a informací:
 
-.. code-block:: xml
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
 
-   <winstrom version="1.0">
-     <success>true</success>
-     <result>
-       <id>105</id>
-       <warnings>
-         <warning for="radekDph">Záznam nemá vyplněn řádek DPH a proto nebude doklad zaúčtován.</warning>
-       </warnings>
-       <infos>
-         <info>Došlo k automatickému výběru výrobního čísla.</info>
-       </infos>
-     </result>
-     <result><id>103</id></result>
-   </winstrom>
+   * - XML
+     - JSON
+   * - .. code-block:: xml
+
+          <winstrom version="1.0">
+            <success>true</success>
+            <result>
+              <id>105</id>
+              <warnings>
+                <warning for="radekDph">Záznam nemá vyplněn řádek DPH a proto nebude doklad zaúčtován.</warning>
+              </warnings>
+              <infos>
+                <info>Došlo k automatickému výběru výrobního čísla.</info>
+              </infos>
+            </result>
+            <result><id>103</id></result>
+          </winstrom>
+     - .. code-block:: json
+
+          {
+            "winstrom": {
+              "@version": "1.0",
+              "success": true,
+              "result": [
+                {
+                  "id": "105",
+                  "warnings": {
+                    "warning@for": "radekDph",
+                    "warning": "Záznam nemá vyplněn řádek DPH a proto nebude doklad zaúčtován."
+                  },
+                  "infos": {
+                    "info": "Došlo k automatickému výběru výrobního čísla."
+                  }
+                },
+                {"id": "103"}
+              ]
+            }
+          }
 
 Atribut ``for`` u ``<warning>`` odkazuje na pole, kterého se zpráva týká.
 
@@ -71,15 +98,35 @@ Obsluha chyb — HTTP stavové kódy
 
 Ukázka chybové odpovědi:
 
-.. code-block:: xml
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
 
-   <?xml version="1.0"?>
-   <winstrom version="1.0">
-     <success>false</success>
-     <result>
-       <id>105</id>
-       <error>Je očekáváno číselné ID, ale 'null' není číslo</error>
-     </result>
-   </winstrom>
+   * - XML
+     - JSON
+   * - .. code-block:: xml
+
+          <?xml version="1.0"?>
+          <winstrom version="1.0">
+            <success>false</success>
+            <result>
+              <id>105</id>
+              <error>Je očekáváno číselné ID, ale 'null' není číslo</error>
+            </result>
+          </winstrom>
+     - .. code-block:: json
+
+          {
+            "winstrom": {
+              "@version": "1.0",
+              "success": false,
+              "result": [
+                {
+                  "id": "105",
+                  "error": "Je očekáváno číselné ID, ale 'null' není číslo"
+                }
+              ]
+            }
+          }
 
 Formát chybové zprávy je shodný s formátem validačních zpráv výše.

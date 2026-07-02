@@ -60,12 +60,23 @@ Vícenásobné identifikátory (musí ukazovat na tentýž záznam, jinak chyba;
 neexistující se ignorují — vhodné pro postupné doplňování z externích
 systémů):
 
-.. code-block:: xml
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
 
-   <cenik>
-     <id>123</id>
-     <id>code:KRABICE</id>
-   </cenik>
+   * - XML
+     - JSON
+   * - .. code-block:: xml
+
+          <cenik>
+            <id>123</id>
+            <id>code:KRABICE</id>
+          </cenik>
+     - .. code-block:: json
+
+          {"winstrom": {"cenik": [
+              {"id": ["123", "code:KRABICE"]}
+          ]}}
 
 Mimo importní XML (URL, ostatní pole) se více identifikátorů zapisuje
 speciální syntaxí se závorkami: ``[123][code:CZK][ext:SHOP:abc]`` (znaky
@@ -75,12 +86,23 @@ lomítkem a URL-encode celku).
 Postupné přidávání dalších externích identifikátorů k existujícímu záznamu
 (inkrementální aktualizace):
 
-.. code-block:: xml
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
 
-   <cenik id="123">
-     <id>ext:SHOP:abc</id>
-     <id>ext:SYSTEM3:xyz</id>
-   </cenik>
+   * - XML
+     - JSON
+   * - .. code-block:: xml
+
+          <cenik id="123">
+            <id>ext:SHOP:abc</id>
+            <id>ext:SYSTEM3:xyz</id>
+          </cenik>
+     - .. code-block:: json
+
+          {"winstrom": {"cenik": [
+              {"id": ["123", "ext:SHOP:abc", "ext:SYSTEM3:xyz"]}
+          ]}}
 
 V JSON je validní i kombinovaný zápis: ``"cenik": "[code:NIKON][123][ext:SHOP:abc]"``.
 
@@ -88,12 +110,23 @@ Mazání externích identifikátorů: atribut evidence ``removeExternalIds``,
 jehož hodnota je prefix mazaných identifikátorů (prázdný řetězec = smazat
 všechny; prefix ``ext:`` v hodnotě není nutné uvádět):
 
-.. code-block:: xml
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
 
-   <cenik removeExternalIds="SYSTEM">
-     <id>123</id>
-     <id>ext:SHOP:123</id>
-   </cenik>
+   * - XML
+     - JSON
+   * - .. code-block:: xml
+
+          <cenik removeExternalIds="SYSTEM">
+            <id>123</id>
+            <id>ext:SHOP:123</id>
+          </cenik>
+     - .. code-block:: json
+
+          {"winstrom": {"cenik@removeExternalIds": "SYSTEM", "cenik": [
+              {"id": ["123", "ext:SHOP:123"]}
+          ]}}
 
 U položek dokladu lze ``removeExternalIds`` uvést společně pro všechny
 položky, nebo přímo na konkrétní položce (má přednost).

@@ -14,10 +14,20 @@ Práce se štítky je technicky relace emulovaná jako položka — stejný
 mechanismus ``removeAll="true"`` jako u položek dokladu (viz
 :doc:`zapis_dat`):
 
-.. code-block:: xml
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
 
-   <adresar><id>14</id><stitky removeAll="true"/></adresar>  <!-- smaže všechny -->
-   <stitky removeAll="true">STITEK1,NOVY_STITEK</stitky>       <!-- nahradí celou množinu -->
+   * - XML
+     - JSON
+   * - .. code-block:: xml
+
+          <adresar><id>14</id><stitky removeAll="true"/></adresar>  <!-- smaže všechny -->
+          <stitky removeAll="true">STITEK1,NOVY_STITEK</stitky>       <!-- nahradí celou množinu -->
+     - .. code-block:: json
+
+          {"winstrom": {"adresar": [{"id": "14", "stitky@removeAll": "true"}]}}
+          {"stitky@removeAll": "true", "stitky": "STITEK1,NOVY_STITEK"}
 
 Bez ``removeAll`` se štítky jen přidávají (existující zůstávají). JSON:
 ``"stitky@removeAll": "true", "stitky": "STITEK1,NOVY_STITEK"``.
@@ -28,9 +38,19 @@ jako "jen jeden štítek", přiřazením nového štítku ze skupiny se ostatní
 automatu. Export dle skupiny: ``?skupina-stitku=SKUPINA1,SKUPINA2``, výstup
 pak obsahuje atributy skupin přímo na elementu ``<stitky>``:
 
-.. code-block:: xml
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
 
-   <stitky SKUPINA1="STITEK1" SKUPINA2="STITEK2">STITEK1,STITEK2,STITEK3</stitky>
+   * - XML
+     - JSON
+   * - .. code-block:: xml
+
+          <stitky SKUPINA1="STITEK1" SKUPINA2="STITEK2">STITEK1,STITEK2,STITEK3</stitky>
+     - .. code-block:: json
+
+          {"stitky@SKUPINA1": "STITEK1", "stitky@SKUPINA2": "STITEK2",
+           "stitky": "STITEK1,STITEK2,STITEK3"}
 
 Atributy (custom pole ceníku a adresáře)
 ----------------------------------------------
@@ -56,13 +76,26 @@ kódu i ID):
 
 Založení:
 
-.. code-block:: xml
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
 
-   <atribut>
-     <hodnota>KUZE</hodnota>
-     <cenik>code:KUFR</cenik>  <!-- nebo <adresar>code:FIRMA</adresar> -->
-     <typAtributu>code:MATERIAL</typAtributu>
-   </atribut>
+   * - XML
+     - JSON
+   * - .. code-block:: xml
+
+          <atribut>
+            <hodnota>KUZE</hodnota>
+            <cenik>code:KUFR</cenik>  <!-- nebo <adresar>code:FIRMA</adresar> -->
+            <typAtributu>code:MATERIAL</typAtributu>
+          </atribut>
+     - .. code-block:: json
+
+          {"winstrom": {"atribut": [{
+              "hodnota": "KUZE",
+              "cenik": "code:KUFR",
+              "typAtributu": "code:MATERIAL"
+          }]}}
 
 Editace: stejná struktura + ``<id>``. Smazání: stejná struktura + ``<id>`` +
 ``action="delete"`` na elementu ``<atribut>`` (viz :doc:`akce_zamykani`).
@@ -80,21 +113,40 @@ nebo přes standardní relace na nadřazeném záznamu (``?relations=uzivatelske
 
 Vytvoření (vnořeno pod vlastnící záznam):
 
-.. code-block:: xml
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
 
-   <adresar>
-     <id>109</id>
-     <uzivatelske-vazby>
-       <uzivatelska-vazba>
-         <id>ext:VAZBA:TESTEXTID-CEN</id>
-         <evidenceType>cenik</evidenceType>
-         <object>code:SKL-0001/2022</object>
-         <popis>popisek</popis>
-         <poznam>poznámka</poznam>
-         <vazbaTyp>code:ADRCEN</vazbaTyp>
-       </uzivatelska-vazba>
-     </uzivatelske-vazby>
-   </adresar>
+   * - XML
+     - JSON
+   * - .. code-block:: xml
+
+          <adresar>
+            <id>109</id>
+            <uzivatelske-vazby>
+              <uzivatelska-vazba>
+                <id>ext:VAZBA:TESTEXTID-CEN</id>
+                <evidenceType>cenik</evidenceType>
+                <object>code:SKL-0001/2022</object>
+                <popis>popisek</popis>
+                <poznam>poznámka</poznam>
+                <vazbaTyp>code:ADRCEN</vazbaTyp>
+              </uzivatelska-vazba>
+            </uzivatelske-vazby>
+          </adresar>
+     - .. code-block:: json
+
+          {"winstrom": {"adresar": [{
+              "id": "109",
+              "uzivatelske-vazby": [{
+                  "id": "ext:VAZBA:TESTEXTID-CEN",
+                  "evidenceType": "cenik",
+                  "object": "code:SKL-0001/2022",
+                  "popis": "popisek",
+                  "poznam": "poznámka",
+                  "vazbaTyp": "code:ADRCEN"
+              }]
+          }]}}
 
 .. code-block:: json
 
@@ -104,6 +156,17 @@ Vytvoření (vnořeno pod vlastnící záznam):
 
 Smazání (samostatně na evidenci vazby, ne vnořeně):
 
-.. code-block:: xml
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
 
-   <uzivatelska-vazba action="delete"><id>ext:VAZBA:TESTEXTID-CEN</id></uzivatelska-vazba>
+   * - XML
+     - JSON
+   * - .. code-block:: xml
+
+          <uzivatelska-vazba action="delete"><id>ext:VAZBA:TESTEXTID-CEN</id></uzivatelska-vazba>
+     - .. code-block:: json
+
+          {"winstrom": {"uzivatelska-vazba": [
+              {"@action": "delete", "id": "ext:VAZBA:TESTEXTID-CEN"}
+          ]}}

@@ -37,6 +37,8 @@ warehouse internals, etc.) or the XML schema — examples throughout use
    payment_matching
    copy_reports_qr
    workflow
+   evidence_list
+   agenda_permissions
 
 Quick overview
 ------------------

@@ -8,13 +8,25 @@ Server umí doklad zkopírovat přímo (efektivnější a spolehlivější než
 načtení celého záznamu a jeho opětovné vložení klientem) — atribut
 ``sourceId`` na novém elementu:
 
-.. code-block:: xml
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
 
-   <winstrom version="1.0">
-     <skladovy-pohyb sourceId="1179">
-       <datVyst>2022-09-11</datVyst>
-     </skladovy-pohyb>
-   </winstrom>
+   * - XML
+     - JSON
+   * - .. code-block:: xml
+
+          <winstrom version="1.0">
+            <skladovy-pohyb sourceId="1179">
+              <datVyst>2022-09-11</datVyst>
+            </skladovy-pohyb>
+          </winstrom>
+     - .. code-block:: json
+
+          {"winstrom": {"@version": "1.0", "skladovy-pohyb": [{
+              "@sourceId": "1179",
+              "datVyst": "2022-09-11"
+          }]}}
 
 ``sourceId`` je ID kopírovaného záznamu; libovolná další uvedená pole (zde
 ``datVyst``) přepíší hodnoty zkopírované z originálu.

@@ -37,12 +37,25 @@ Inkrementální (částečná) aktualizace
 Při aktualizaci stačí uvést jen atributy, které se mají změnit. Explicitně
 prázdný element hodnotu smaže:
 
-.. code-block:: xml
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
 
-   <cenik id="123">
-     <nazevA>Nový název</nazevA>
-     <ean/>  <!-- smazaná hodnota -->
-   </cenik>
+   * - XML
+     - JSON
+   * - .. code-block:: xml
+
+          <cenik id="123">
+            <nazevA>Nový název</nazevA>
+            <ean/>  <!-- smazaná hodnota -->
+          </cenik>
+     - .. code-block:: json
+
+          {"winstrom": {"cenik": [{
+              "id": "123",
+              "nazevA": "Nový název",
+              "ean": null
+          }]}}
 
 Položky dokladu (např. faktury): pokud položka nemá uveden identifikátor,
 řídí se **pořadím** — rizikové pro update (vložení na začátek posune
@@ -52,21 +65,26 @@ uvádět externí identifikátor položky.
 Aktualizace bez identifikátoru vždy **přidává** nové položky. Pro úplné
 nahrazení kolekce (smazání všeho neuvedeného) použijte ``removeAll="true"``:
 
-.. code-block:: xml
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
 
-   <faktura-vydana id="123">
-     <polozkyFaktury removeAll="true">
-       <faktura-vydana-polozka><id>14</id>...</faktura-vydana-polozka>
-     </polozkyFaktury>
-   </faktura-vydana>
+   * - XML
+     - JSON
+   * - .. code-block:: xml
 
-.. code-block:: json
+          <faktura-vydana id="123">
+            <polozkyFaktury removeAll="true">
+              <faktura-vydana-polozka><id>14</id>...</faktura-vydana-polozka>
+            </polozkyFaktury>
+          </faktura-vydana>
+     - .. code-block:: json
 
-   {"winstrom": {"faktura-vydana": [{
-     "id": "123",
-     "polozkyFaktury@removeAll": "true",
-     "polozkyFaktury": [{"id": "14", "...": "..."}]
-   }]}}
+          {"winstrom": {"faktura-vydana": [{
+              "id": "123",
+              "polozkyFaktury@removeAll": "true",
+              "polozkyFaktury": [{"id": "14", "...": "..."}]
+          }]}}
 
 Vše, co v seznamu chybí, se smaže; uvedené položky se aktualizují/vytvoří.
 Přímé smazání konkrétních položek: ``action="delete"`` (viz
@@ -104,9 +122,20 @@ Element ``update="..."`` řídí chování podle existence záznamu:
      - ``ok`` (výchozí)
      - Pokud záznam existuje, normálně jej změň.
 
-.. code-block:: xml
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
 
-   <faktura-vydana update="ignore"><id>123</id>...</faktura-vydana>
+   * - XML
+     - JSON
+   * - .. code-block:: xml
+
+          <faktura-vydana update="ignore"><id>123</id>...</faktura-vydana>
+     - .. code-block:: json
+
+          {"winstrom": {"faktura-vydana": [
+              {"@update": "ignore", "id": "123", "...": "..."}
+          ]}}
 
 Obdobný mechanismus pro **relace** — atribut ``if-not-found`` na vazebním
 elementu:
@@ -128,9 +157,18 @@ elementu:
        jen kód/název z hodnoty odkazu) — nelze pro evidence s dalšími
        povinnými poli.
 
-.. code-block:: xml
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
 
-   <firma if-not-found="null">code:FIRMA</firma>
+   * - XML
+     - JSON
+   * - .. code-block:: xml
+
+          <firma if-not-found="null">code:FIRMA</firma>
+     - .. code-block:: json
+
+          {"firma@if-not-found": "null", "firma": "code:FIRMA"}
 
 Předchozí hodnota — reakce na skutečnou změnu
 ----------------------------------------------------
@@ -140,12 +178,26 @@ formulářů: server spustí kaskádu závislých hodnot pole (viz výše) jen
 pokud se hodnota **skutečně** změnila oproti tomu, co klient naposledy
 viděl.
 
-.. code-block:: xml
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
 
-   <faktura-vydana id="123">
-     <firma previousValue="code:JINA FIRMA">code:FIRMA</firma>
-     <nazFirmy>Jiná firma</nazFirmy>  <!-- stará hodnota z formuláře -->
-   </faktura-vydana>
+   * - XML
+     - JSON
+   * - .. code-block:: xml
+
+          <faktura-vydana id="123">
+            <firma previousValue="code:JINA FIRMA">code:FIRMA</firma>
+            <nazFirmy>Jiná firma</nazFirmy>  <!-- stará hodnota z formuláře -->
+          </faktura-vydana>
+     - .. code-block:: json
+
+          {"winstrom": {"faktura-vydana": [{
+              "id": "123",
+              "firma-previousValue": "code:JINA FIRMA",
+              "firma": "code:FIRMA",
+              "nazFirmy": "Jiná firma"
+          }]}}
 
 Odpověď doplní ``nazFirmy`` na aktuální název firmy (``Firma``), protože
 server detekoval reálnou změnu ``firma``. Bez ``previousValue`` by server

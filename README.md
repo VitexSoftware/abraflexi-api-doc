@@ -4,7 +4,8 @@ A standalone, Sphinx-built reference guide for the **AbraFlexi (FlexiBee)
 REST API** itself — not any particular client library. Compiled and
 translated from the official documentation at
 [podpora.flexibee.eu](https://podpora.flexibee.eu/cs/collections/2592813-dokumentace-rest-api)
-and cross-checked against the reference PHP AbraFlexi library. Examples
+and cross-checked against the reference
+[PHP AbraFlexi library](https://github.com/Spoje-NET/php-abraflexi). Examples
 throughout use JSON.
 
 Available in two languages, each producing its own Debian package:
@@ -42,6 +43,11 @@ Builds both `cs/` and `en/` with Sphinx's `-W` flag (warnings become
 errors, catching broken toctrees/references and malformed tables) and
 verifies both language trees have the same number of chapters, so a new
 chapter added in one language isn't silently forgotten in the other.
+
+## Related projects
+
+- [php-abraflexi](https://github.com/Spoje-NET/php-abraflexi) — PHP client library for the AbraFlexi REST API
+- [python-abraflexi](https://github.com/VitexSoftware/python-abraflexi) — Python client library for the AbraFlexi REST API
 
 ## License
 

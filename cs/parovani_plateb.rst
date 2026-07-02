@@ -4,19 +4,31 @@ Párování plateb
 Banku (``banka``) nebo pokladní pohyb (``pokladni-pohyb``) lze spárovat s
 jednou nebo více fakturami vydanými či přijatými.
 
-.. code-block:: xml
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
 
-   <banka>
-     <id>code:BANKA1</id>
-     <!-- lze uvést i další vlastnosti dokladu jako při běžném importu -->
-     <sparovani>
-       <!-- pro úhradu více faktur se element opakuje; type - jen faktury
-            stejného typu (vydané nebo přijaté); castka - (volitelné)
-            omezuje uhrazovanou částku -->
-       <uhrazovanaFak type="faktura-vydana" castka="1000">code:FV1</uhrazovanaFak>
-       <zbytek>ignorovat</zbytek>
-     </sparovani>
-   </banka>
+   * - XML
+     - JSON
+   * - .. code-block:: xml
+
+          <banka>
+            <id>code:BANKA1</id>
+            <!-- lze uvést i další vlastnosti dokladu jako při běžném importu -->
+            <sparovani>
+              <!-- pro úhradu více faktur se element opakuje; type - jen faktury
+                   stejného typu (vydané nebo přijaté); castka - (volitelné)
+                   omezuje uhrazovanou částku -->
+              <uhrazovanaFak type="faktura-vydana" castka="1000">code:FV1</uhrazovanaFak>
+              <zbytek>ignorovat</zbytek>
+            </sparovani>
+          </banka>
+     - .. code-block:: json
+
+          {"winstrom": {"banka": {"id": "code:BANKA1", "sparovani": {
+              "uhrazovanaFak": {"@castka": "1000", "@type": "faktura-vydana", "filter": "code:FV1"},
+              "zbytek": "ignorovat"
+          }}}}
 
 V jednom spárování lze uhradit více faktur najednou (musí být stejného
 typu). Bez atributu ``castka`` se z faktury uhradí celá zbývající částka;
@@ -85,14 +97,25 @@ uhrazující částky k celkové uhrazované částce.
 Odpárování
 --------------
 
-.. code-block:: xml
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
 
-   <banka>
-     <id>code:BANKA1</id>
-     <odparovani>
-       <uhrazovanaFak type="faktura-vydana">code:FV1</uhrazovanaFak>  <!-- nepovinné, lze vícekrát -->
-     </odparovani>
-   </banka>
+   * - XML
+     - JSON
+   * - .. code-block:: xml
+
+          <banka>
+            <id>code:BANKA1</id>
+            <odparovani>
+              <uhrazovanaFak type="faktura-vydana">code:FV1</uhrazovanaFak>  <!-- nepovinné, lze vícekrát -->
+            </odparovani>
+          </banka>
+     - .. code-block:: json
+
+          {"winstrom": {"banka": {"id": "code:BANKA1", "odparovani": {
+              "uhrazovanaFak": {"@type": "faktura-vydana", "filter": "code:FV1"}
+          }}}}
 
 Bez uvedení ``<uhrazovanaFak>`` se odpáruje vše spárované s daným dokladem.
 Párování je **idempotentní** (opakované volání je bezpečné).
@@ -127,17 +150,42 @@ Starší REST-only endpoint (bez XML importu, stále podporovaný)
 
    /c/{firma}/parovani-uhrad
 
-.. code-block:: xml
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
 
-   <sparovani>
-     <uhrazovanaFak type="faktura-prijata">code:FP1</uhrazovanaFak>
-     <uhrazujiciDokl type="banka">code:BANKA1</uhrazujiciDokl>
-     <zbytek>ignorovat</zbytek>
-   </sparovani>
+   * - XML
+     - JSON
+   * - .. code-block:: xml
 
-.. code-block:: xml
+          <sparovani>
+            <uhrazovanaFak type="faktura-prijata">code:FP1</uhrazovanaFak>
+            <uhrazujiciDokl type="banka">code:BANKA1</uhrazujiciDokl>
+            <zbytek>ignorovat</zbytek>
+          </sparovani>
+     - .. code-block:: json
 
-   <odparovani>
-     <uhrazujiciDokl>code:foo</uhrazujiciDokl>  <!-- povinné -->
-     <uhrazovanaFak>code:bar</uhrazovanaFak>    <!-- nepovinné, lze vícekrát -->
-   </odparovani>
+          {"winstrom": {"sparovani": {
+              "uhrazovanaFak": {"@type": "faktura-prijata", "filter": "code:FP1"},
+              "uhrazujiciDokl": {"@type": "banka", "filter": "code:BANKA1"},
+              "zbytek": "ignorovat"
+          }}}
+
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
+
+   * - XML
+     - JSON
+   * - .. code-block:: xml
+
+          <odparovani>
+            <uhrazujiciDokl>code:foo</uhrazujiciDokl>  <!-- povinné -->
+            <uhrazovanaFak>code:bar</uhrazovanaFak>    <!-- nepovinné, lze vícekrát -->
+          </odparovani>
+     - .. code-block:: json
+
+          {"winstrom": {"odparovani": {
+              "uhrazujiciDokl": "code:foo",
+              "uhrazovanaFak": "code:bar"
+          }}}

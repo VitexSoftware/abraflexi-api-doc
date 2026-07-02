@@ -38,9 +38,18 @@ Získání aktuální globální verze
 Do libovolného exportu lze doplnit aktuální globální verzi parametrem
 ``?add-global-version=true``:
 
-.. code-block:: xml
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
 
-   <winstrom version="1.0" globalVersion="6">...</winstrom>
+   * - XML
+     - JSON
+   * - .. code-block:: xml
+
+          <winstrom version="1.0" globalVersion="6">...</winstrom>
+     - .. code-block:: json
+
+          {"winstrom": {"@version": "1.0", "@globalVersion": "6", "...": "..."}}
 
 Získání záznamů o změnách
 ------------------------------

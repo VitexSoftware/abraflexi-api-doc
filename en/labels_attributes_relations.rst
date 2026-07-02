@@ -14,13 +14,41 @@ Working with labels is technically a relation emulated as an item
 collection — the same ``removeAll="true"`` mechanism as line items (see
 :doc:`writing_data`):
 
-.. code-block:: xml
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
 
-   <adresar><id>14</id><stitky removeAll="true"/></adresar>  <!-- clears all -->
-   <stitky removeAll="true">LABEL1,NEW_LABEL</stitky>          <!-- replaces the whole set -->
+   * - XML
+     - JSON
+   * - .. code-block:: xml
 
-Without ``removeAll``, labels are just added (existing ones kept). JSON:
-``"stitky@removeAll": "true", "stitky": "LABEL1,NEW_LABEL"``.
+          <!-- clears all -->
+          <adresar><id>14</id><stitky removeAll="true"/></adresar>
+     - .. code-block:: json
+
+          {
+              "winstrom": {
+                  "adresar": [
+                      {
+                          "id": "14",
+                          "stitky@removeAll": "true",
+                          "stitky": ""
+                      }
+                  ]
+              }
+          }
+   * - .. code-block:: xml
+
+          <!-- replaces the whole set -->
+          <stitky removeAll="true">LABEL1,NEW_LABEL</stitky>
+     - .. code-block:: json
+
+          {
+              "stitky@removeAll": "true",
+              "stitky": "LABEL1,NEW_LABEL"
+          }
+
+Without ``removeAll``, labels are just added (existing ones kept).
 
 **Label groups**: a label can belong to a group; if the group is configured
 "only one label allowed", assigning a new label from that group
@@ -29,9 +57,22 @@ to emulate a state machine. Export by group:
 ``?skupina-stitku=GROUP1,GROUP2`` — the output annotates the ``<stitky>``
 element with per-group attributes:
 
-.. code-block:: xml
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
 
-   <stitky GROUP1="LABEL1" GROUP2="LABEL2">LABEL1,LABEL2,LABEL3</stitky>
+   * - XML
+     - JSON
+   * - .. code-block:: xml
+
+          <stitky GROUP1="LABEL1" GROUP2="LABEL2">LABEL1,LABEL2,LABEL3</stitky>
+     - .. code-block:: json
+
+          {
+              "stitky@GROUP1": "LABEL1",
+              "stitky@GROUP2": "LABEL2",
+              "stitky": "LABEL1,LABEL2,LABEL3"
+          }
 
 Attributes (custom fields on price list & address book)
 ----------------------------------------------------------------
@@ -59,13 +100,33 @@ code or id):
 
 Create:
 
-.. code-block:: xml
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
 
-   <atribut>
-     <hodnota>LEATHER</hodnota>
-     <cenik>code:SUITCASE</cenik>  <!-- or <adresar>code:FIRMA</adresar> -->
-     <typAtributu>code:MATERIAL</typAtributu>
-   </atribut>
+   * - XML
+     - JSON
+   * - .. code-block:: xml
+
+          <!-- <cenik> or <adresar>code:FIRMA</adresar> -->
+          <atribut>
+            <hodnota>LEATHER</hodnota>
+            <cenik>code:SUITCASE</cenik>
+            <typAtributu>code:MATERIAL</typAtributu>
+          </atribut>
+     - .. code-block:: json
+
+          {
+              "winstrom": {
+                  "atribut": [
+                      {
+                          "hodnota": "LEATHER",
+                          "cenik": "code:SUITCASE",
+                          "typAtributu": "code:MATERIAL"
+                      }
+                  ]
+              }
+          }
 
 Update: same shape + ``<id>``. Delete: same shape + ``<id>`` +
 ``action="delete"`` on the ``<atribut>`` element (see :doc:`actions_locking`).
@@ -84,30 +145,53 @@ owning record's ``relations=`` (``?relations=uzivatelske-vazby``).
 
 Create (nested under the owning record):
 
-.. code-block:: xml
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
 
-   <adresar>
-     <id>109</id>
-     <uzivatelske-vazby>
-       <uzivatelska-vazba>
-         <id>ext:VAZBA:TESTEXTID-CEN</id>
-         <evidenceType>cenik</evidenceType>
-         <object>code:SKL-0001/2022</object>
-         <popis>description</popis>
-         <poznam>note</poznam>
-         <vazbaTyp>code:ADRCEN</vazbaTyp>
-       </uzivatelska-vazba>
-     </uzivatelske-vazby>
-   </adresar>
+   * - XML
+     - JSON
+   * - .. code-block:: xml
 
-.. code-block:: json
+          <adresar>
+            <id>109</id>
+            <uzivatelske-vazby>
+              <uzivatelska-vazba>
+                <id>ext:VAZBA:TESTEXTID-CEN</id>
+                <evidenceType>cenik</evidenceType>
+                <object>code:SKL-0001/2022</object>
+                <popis>description</popis>
+                <poznam>note</poznam>
+                <vazbaTyp>code:ADRCEN</vazbaTyp>
+              </uzivatelska-vazba>
+            </uzivatelske-vazby>
+          </adresar>
+     - .. code-block:: json
 
-   {"winstrom": {"interni-doklad": [{"id": "1054", "uzivatelske-vazby": [
-     {"vazbaTyp": "code:INT-FAV", "evidenceType": "faktura-vydana", "object": "code:VF1-0073/2022"}
-   ]}]}}
+          {"winstrom": {"interni-doklad": [{"id": "1054", "uzivatelske-vazby": [
+            {"vazbaTyp": "code:INT-FAV", "evidenceType": "faktura-vydana", "object": "code:VF1-0073/2022"}
+          ]}]}}
 
 Delete (standalone on the relation's own evidence, not nested):
 
-.. code-block:: xml
+.. list-table::
+   :header-rows: 1
+   :widths: 50 50
 
-   <uzivatelska-vazba action="delete"><id>ext:VAZBA:TESTEXTID-CEN</id></uzivatelska-vazba>
+   * - XML
+     - JSON
+   * - .. code-block:: xml
+
+          <uzivatelska-vazba action="delete"><id>ext:VAZBA:TESTEXTID-CEN</id></uzivatelska-vazba>
+     - .. code-block:: json
+
+          {
+              "winstrom": {
+                  "uzivatelska-vazba": [
+                      {
+                          "@action": "delete",
+                          "id": "ext:VAZBA:TESTEXTID-CEN"
+                      }
+                  ]
+              }
+          }
