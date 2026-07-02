@@ -29,7 +29,19 @@ dpkg-buildpackage -us -uc -b
 Produces `abraflexi-api-doc-cs` and `abraflexi-api-doc-en`, each installing
 its HTML output to `/usr/share/doc/abraflexi-api-doc-{cs,en}/html`, with an
 Apache2 config snippet enabled automatically and an Nginx snippet provided
-for reference.
+for reference. CI builds and test-installs both packages across several
+Debian/Ubuntu releases — see [`debian/Jenkinsfile`](debian/Jenkinsfile).
+
+## Testing
+
+```bash
+./tests/test_docs_build.sh
+```
+
+Builds both `cs/` and `en/` with Sphinx's `-W` flag (warnings become
+errors, catching broken toctrees/references and malformed tables) and
+verifies both language trees have the same number of chapters, so a new
+chapter added in one language isn't silently forgotten in the other.
 
 ## License
 

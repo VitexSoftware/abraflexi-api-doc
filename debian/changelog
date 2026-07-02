@@ -1,3 +1,15 @@
+abraflexi-api-doc (1.0.1-1) unstable; urgency=medium
+
+  * Add the AbraFlexi logo as both the AppStream icon (installed per-package
+    to usr/share/icons/hicolor/scalable/apps/) and the Sphinx theme logo/
+    favicon, shown as a hero image on both language landing pages
+  * Add tests/test_docs_build.sh: builds both cs/ and en/ with Sphinx's -W
+    flag (warnings as errors) and checks both language trees have the same
+    number of chapters
+  * Document testing in README.md
+
+ -- Vítězslav Dvořák <info@vitexsoftware.cz>  Thu, 02 Jul 2026 09:00:00 +0200
+
 abraflexi-api-doc (1.0.0-1) unstable; urgency=medium
 
   * Initial release: AbraFlexi REST API reference, compiled and translated
