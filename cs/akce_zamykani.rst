@@ -198,3 +198,6 @@ Smazání zámku: ``<zamek action="delete"><id>6</id></zamek>``.
 
    Smazání zámku období **neodemyká jednotlivé doklady** zamčené v jeho
    rámci! Ty je nutné odemknout samostatně (``action="unlock"``).
+
+Viz také :doc:`inicializace_obdobi` pro převod konečných zůstatků do
+následujícího účetního období, který se typicky provádí před uzamknutím.

@@ -29,6 +29,7 @@ schéma — příklady všude používají formát **JSON**.
    zapis_dat
    validace_chyby
    akce_zamykani
+   inicializace_obdobi
    davky_transakce
    prilohy
    changes_api

@@ -239,3 +239,6 @@ Deleting a lock: ``<zamek action="delete"><id>6</id></zamek>``.
    Deleting a period lock does **NOT unlock individual documents** that
    were locked while it was active! Those must be unlocked separately
    (``action="unlock"``).
+
+See also :doc:`period_initialization` for carrying forward closing balances
+into the next accounting period, typically done before locking it.

@@ -29,6 +29,7 @@ warehouse internals, etc.) or the XML schema — examples throughout use
    writing_data
    validation_errors
    actions_locking
+   period_initialization
    batch_transactions
    attachments
    changes_api
