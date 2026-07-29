@@ -1,4 +1,6 @@
 # abraflexi-api-doc
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+![Packaging: deb](https://img.shields.io/badge/packaging-.deb-red?logo=debian&logoColor=white)
 
 A standalone, Sphinx-built reference guide for the **AbraFlexi (FlexiBee)
 REST API** itself — not any particular client library. Compiled and
