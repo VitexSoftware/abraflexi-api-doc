@@ -1,3 +1,17 @@
+abraflexi-api-doc (1.2.0-1) unstable; urgency=medium
+
+  * Add API reference chapters from podpora.flexibee.eu: selling-price
+    and stock recalculation, bill of materials, contracts, balance
+    (saldo), and admin Batch API.
+  * Document two-factor authentication management via REST API (QR,
+    enable/disable, otp query param).
+  * Expand company settings: initial-settings create path, import-only
+    fields, dry-run guidance.
+  * Document copy idempotence, NOT-FOUND on bad sourceId, and 500 on
+    unknown report-name.
+
+ -- Vítězslav Dvořák <info@vitexsoftware.cz>  Sun, 20 Sep 2026 01:26:36 +0200
+
 abraflexi-api-doc (1.1.0-1) unstable; urgency=medium
 
   * Add a JSON column alongside every XML API-payload example, laid out
