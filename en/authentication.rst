@@ -92,6 +92,49 @@ and ``otp`` for two-factor login; not usable with SSO — OpenID or SAMLv2).
    for ``/login-logout/login.json``, otherwise the request body may not be
    recognized correctly.
 
+Two-factor authentication (2FA)
+--------------------------------
+
+2FA can be managed via the REST API as well as in the UI. Source:
+`podpora.flexibee.eu
+<https://podpora.flexibee.eu/en/articles/16809538-two-factor-authentication-api>`_.
+
+.. warning::
+
+   Enabled 2FA also applies to REST calls with HTTP authentication. Every
+   request from that user must include the query parameter ``otp`` with the
+   current one-time password — otherwise integrations stop working. Prefer
+   not enabling 2FA on pure service accounts.
+
+Status (also present in ``GET /u`` listings):
+
+.. code-block:: text
+
+   GET /u/{username}.xml   — look for <twoPhaseAuthEnabled>true|false</…>
+
+Issue a QR code (PNG 400×400) and read the private key from the ``Secret``
+response header:
+
+.. code-block:: text
+
+   GET /u/{username}/qrcode-2fa.png
+   # or Accept: image/png — without .png / Accept → 404
+   # already-active 2FA → 403
+
+Enable / disable:
+
+.. code-block:: text
+
+   PUT /u/{username}/enable-2fa?secret={secret}&otp={otp-code}
+   PUT /u/{username}/disable-2fa?otp={otp-code}
+
+An administrator with the *Change User Passwords* permission can disable
+another user's 2FA without their OTP:
+
+.. code-block:: text
+
+   PUT /u/disable-2fa?username={username}
+
 Server-side authorization (impersonation)
 -----------------------------------------------
 

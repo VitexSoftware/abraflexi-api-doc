@@ -99,11 +99,30 @@ v odkazované verzi:
 Vložení nové *počáteční* (nejstarší) verze nastavení před stávající první:
 ``prvniNastaveni=true`` + ``prvniNastaveniPlatiDoData=`` (konečné datum nové
 první verze; aplikace jej automaticky nastaví jako ``platiOdData`` stávající
-první verze), vnořeno v ``puvodniNastaveni``.
+první verze), vnořeno v ``puvodniNastaveni``:
 
-.. note::
+.. code-block:: xml
 
-   Příklady URL v oficiální dokumentaci k této kapitole používají prefix
-   ``/v2/c/{firma}/...`` místo obvyklého ``/c/{firma}/...`` — patrně jde o
-   novější/alternativní verzi cesty k API; jinde v dokumentaci se
-   nevyskytuje.
+   <nastaveni>
+     <puvodniNastaveni>
+       <id>1</id>
+       <prvniNastaveni>true</prvniNastaveni>
+       <prvniNastaveniPlatiDoData>2026-12-22</prvniNastaveniPlatiDoData>
+     </puvodniNastaveni>
+   </nastaveni>
+
+Pokud ``prvniNastaveniPlatiDoData`` nepředchází platnost stávajícího
+počátečního nastavení, server vrátí ``400`` s kódem
+``nastaveniVytvorPrvniNastNeplatneDatum``.
+
+.. warning::
+
+   ``puvodniNastaveni``, ``prvniNastaveni`` a
+   ``prvniNastaveniPlatiDoData`` jsou **jen pro import** — v
+   ``/nastaveni/properties`` nejsou a při exportu se nevrací.
+
+Nejdřív vyzkoušejte s ``?dry-run=true``. Přehled období platnosti:
+``GET /c/{firma}/nastaveni.xml?detail=custom:id,platiOdData``.
+
+Zdroj: `podpora.flexibee.eu
+<https://podpora.flexibee.eu/cs/articles/16848338-nastaveni-spolecnosti-api>`_.

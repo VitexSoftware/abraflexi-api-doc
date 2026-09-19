@@ -106,11 +106,30 @@ referenced version:
 To insert a new *earliest* settings version before the current first one,
 use ``prvniNastaveni=true`` + ``prvniNastaveniPlatiDoData=`` (end date for
 the new first version; the app auto-sets this as the existing first
-version's new ``platiOdData``), nested inside ``puvodniNastaveni``.
+version's new ``platiOdData``), nested inside ``puvodniNastaveni``:
 
-.. note::
+.. code-block:: xml
 
-   Example URLs in the official documentation for this section use a
-   ``/v2/c/{company}/...`` prefix instead of the usual ``/c/{company}/...``
-   — likely a newer/alternate API version path; not otherwise documented
-   elsewhere.
+   <nastaveni>
+     <puvodniNastaveni>
+       <id>1</id>
+       <prvniNastaveni>true</prvniNastaveni>
+       <prvniNastaveniPlatiDoData>2026-12-22</prvniNastaveniPlatiDoData>
+     </puvodniNastaveni>
+   </nastaveni>
+
+If ``prvniNastaveniPlatiDoData`` does not precede the existing initial
+settings' validity, the server returns ``400`` with code
+``nastaveniVytvorPrvniNastNeplatneDatum``.
+
+.. warning::
+
+   ``puvodniNastaveni``, ``prvniNastaveni`` and
+   ``prvniNastaveniPlatiDoData`` are **import-only** — they do not appear in
+   ``/nastaveni/properties`` and are not returned on export.
+
+Try with ``?dry-run=true`` first. Overview of validity periods only:
+``GET /c/{company}/nastaveni.xml?detail=custom:id,platiOdData``.
+
+Source: `podpora.flexibee.eu
+<https://podpora.flexibee.eu/en/articles/16848338-company-settings-api>`_.

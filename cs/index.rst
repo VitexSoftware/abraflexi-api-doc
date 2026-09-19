@@ -37,6 +37,12 @@ schéma — příklady všude používají formát **JSON**.
    stitky_atributy_vazby
    uzivatelske_tlacitko
    parovani_plateb
+   prepocet_prodejnich_cen
+   prepocet_skladu
+   kusovnik
+   smlouvy
+   saldo
+   batch_api
    kopie_tisky_qr
    workflow
    seznam_evidenci

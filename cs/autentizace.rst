@@ -93,6 +93,48 @@ nebo SAMLv2 — tuto metodu nelze použít).
    ``application/x-www-form-urlencoded`` nebo ``multipart/form-data``, jinak
    tělo požadavku nemusí být správně rozpoznáno.
 
+Dvoufázové ověření (2FA)
+------------------------
+
+2FA lze spravovat i přes REST API. Zdroj: `podpora.flexibee.eu
+<https://podpora.flexibee.eu/cs/articles/16809538-dvoufazove-overeni-api>`_.
+
+.. warning::
+
+   Zapnuté 2FA platí i pro REST volání s HTTP autentizací. Každý požadavek
+   daného uživatele musí obsahovat query parametr ``otp`` s aktuálním
+   jednorázovým heslem — jinak přestanou fungovat i dosud funkční
+   integrace. U čistě servisních účtů 2FA raději nezapínejte.
+
+Stav (i ve výpisu ``GET /u``):
+
+.. code-block:: text
+
+   GET /u/{username}.xml   — element <twoPhaseAuthEnabled>true|false</…>
+
+Vystavení QR kódu (PNG 400×400); privátní klíč je v hlavičce odpovědi
+``Secret``:
+
+.. code-block:: text
+
+   GET /u/{username}/qrcode-2fa.png
+   # nebo Accept: image/png — bez .png / Accept → 404
+   # už aktivní 2FA → 403
+
+Zapnutí / vypnutí:
+
+.. code-block:: text
+
+   PUT /u/{username}/enable-2fa?secret={secret}&otp={otp-code}
+   PUT /u/{username}/disable-2fa?otp={otp-code}
+
+Administrátor s právem *Změna hesel uživatelů* může vypnout 2FA jinému
+uživateli bez jeho OTP:
+
+.. code-block:: text
+
+   PUT /u/disable-2fa?username={username}
+
 Serverová autorizace (impersonace)
 --------------------------------------
 

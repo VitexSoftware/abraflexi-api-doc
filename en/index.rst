@@ -37,6 +37,12 @@ warehouse internals, etc.) or the XML schema — examples throughout use
    labels_attributes_relations
    custom_button
    payment_matching
+   selling_price_recalculation
+   stock_recalculation
+   bill_of_materials
+   contracts
+   balance
+   batch_api
    copy_reports_qr
    workflow
    evidence_list

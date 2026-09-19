@@ -35,10 +35,19 @@ loading the full record client-side and re-inserting it) — via the
           }
 
 ``sourceId`` is the id of the record to copy; any other fields given (here
-``datVyst``) override the copy's values.
+``datVyst``) override the copy's values. A non-existent ``sourceId``
+returns ``400`` with code ``NOT-FOUND``.
+
+If the new record's identifier is given, the call is **idempotent** —
+repeating it updates the existing record instead of creating another copy.
+Without an id (or if it does not exist yet), a copy of ``sourceId`` is
+created. Verify with ``?dry-run=true`` first — the ``<content />`` shows
+what would be saved.
 
 Printed report export (PDF / XLSX)
 ----------------------------------------
+
+There is no print dialog via the API — only the generated output itself.
 
 .. code-block:: text
 
@@ -63,6 +72,12 @@ Discover a given evidence's supported reports:
 ``isDefault``, ``predvybranyPocet`` (1 or N — single-record vs. overview
 report), ``rozsiritelna`` (does an extended version exist?), ``sumovana``
 (supports summation?).
+
+.. warning::
+
+   An unknown ``report-name`` returns **500** with
+   ``Report '…' can't be found`` — not an empty PDF. Always take the value
+   from the reports list.
 
 ISDOC.PDF format: PDF outputs of invoices (non-listing type) implicitly
 embed the ISDOC document, which can be used to re-import invoices from ISDOC.

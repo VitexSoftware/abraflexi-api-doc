@@ -29,10 +29,18 @@ načtení celého záznamu a jeho opětovné vložení klientem) — atribut
           }]}}
 
 ``sourceId`` je ID kopírovaného záznamu; libovolná další uvedená pole (zde
-``datVyst``) přepíší hodnoty zkopírované z originálu.
+``datVyst``) přepíší hodnoty zkopírované z originálu. Neexistující
+``sourceId`` vrací ``400`` s kódem ``NOT-FOUND``.
+
+Je-li uvedeno ID nového záznamu, je volání **idempotentní** — opakování
+jen aktualizuje existující záznam, nevytvoří další kopii. Bez ID (nebo
+pokud ještě neexistuje) vznikne kopie ``sourceId``. Nejdřív ověřte
+``?dry-run=true`` — v ``<content />`` uvidíte, co by se uložilo.
 
 Export tiskových sestav (PDF / XLSX)
 ------------------------------------------
+
+Tiskový dialog přes API vyvolat nelze — jen samotný vygenerovaný výstup.
 
 .. code-block:: text
 
@@ -56,6 +64,12 @@ Přehled podporovaných sestav dané evidence: ``GET /c/{firma}/{evidence}/repor
 (lokalizovaný název), ``isDefault``, ``predvybranyPocet`` (1 nebo N —
 sestava pro jeden záznam, nebo přehledová), ``rozsiritelna`` (existuje
 rozšířená verze?), ``sumovana`` (podporuje sumaci?).
+
+.. warning::
+
+   Neznámý ``report-name`` vrací **500** s hlášením
+   ``Report '…' can't be found`` — ne prázdné PDF. Hodnotu vždy berte ze
+   seznamu sestav.
 
 Formát ISDOC.PDF: PDF výstupy faktur (ne přehledové) obsahují vložený
 dokument ISDOC, který lze zpětně použít pro import faktur z ISDOC.
