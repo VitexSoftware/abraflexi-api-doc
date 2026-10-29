@@ -1,3 +1,11 @@
+abraflexi-api-doc (1.2.1-1) unstable; urgency=medium
+
+  * Document password reset API (send-email, set-password) and expand
+    authentication: refreshToken/csrfToken in login response, form-
+    urlencoded login body, session expiry redirect, SSO note.
+
+ -- Vítězslav Dvořák <info@vitexsoftware.cz>  Thu, 29 Oct 2026 09:34:55 +0100
+
 abraflexi-api-doc (1.2.0-1) unstable; urgency=medium
 
   * Add API reference chapters from podpora.flexibee.eu: selling-price
