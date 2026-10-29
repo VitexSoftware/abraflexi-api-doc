@@ -31,7 +31,8 @@ password each time. Obtaining a token:
 
    POST /login-logout/login.json
 
-Request body (raw JSON, not form data):
+The request body can be raw JSON or ``application/x-www-form-urlencoded``
+(fields ``username``, ``password``, optionally ``otp``):
 
 .. code-block:: json
 
@@ -50,7 +51,9 @@ Successful response:
 
    {
        "success": true,
-       "authSessionId": "00112233445566778899aabbccddeeff..."
+       "authSessionId": "00112233445566778899aabbccddeeff...",
+       "refreshToken": "4f133f49-...:c42cf011-...",
+       "csrfToken": "f30ad42d-..."
    }
 
 Failed response:
@@ -59,13 +62,14 @@ Failed response:
 
    {
        "success": false,
-       "errors": {"reason": "Wrong username or password was entered."}
+       "errors": {"reason": "Wrong username or password was entered."},
+       "messageCode": "..."
    }
 
 The obtained token can be passed on subsequent requests in three ways:
 
 - Cookie: ``authSessionId=00112233...``
-- HTTP header: ``X-authSessionId: 00112233...``
+- HTTP header: ``X-authSessionId: 00112233...`` (recommended)
 - URL parameter: ``?authSessionId=00112233...`` (careful: in this case
   credentials get logged on the server)
 
@@ -74,6 +78,9 @@ To keep the token alive, periodically call
 once every 30 minutes should suffice). If you have a ``refreshToken``, a new
 ``authSessionId`` can be obtained via ``GET /login-logout/check`` with that
 token sent as a cookie.
+
+When the session expires, the server redirects requests to
+``/login-logout/remote-logout`` and you must log in again.
 
 Logging out a specific user:
 
@@ -90,7 +97,41 @@ and ``otp`` for two-factor login; not usable with SSO — OpenID or SAMLv2).
    Practical note: some HTTP clients (curl, Postman) require the
    ``application/x-www-form-urlencoded`` or ``multipart/form-data`` header
    for ``/login-logout/login.json``, otherwise the request body may not be
-   recognized correctly.
+   recognized correctly. In Postman, clear any credentials previously set on
+   the Auth tab first.
+
+.. note::
+
+   SSO via SAMLv2 and OpenID is available only on local installations,
+   depends on licensing, and is configured at ``/admin/auth-settings``.
+
+Source: `Authentication
+<https://podpora.flexibee.eu/cs/articles/4713880-autentizace>`_,
+`Generating an authentication token
+<https://podpora.flexibee.eu/cs/articles/3422248-vygenerovani-autentizacniho-tokenu>`_
+(Czech).
+
+Password reset
+--------------
+
+Two-step password reset:
+
+.. code-block:: text
+
+   PUT /password-reset/send-email
+
+The body is JSON with a single ``email`` field. Requires an SMTP server to be
+configured; for security the API returns no error if the address matches no
+user. A reset token is sent to that address.
+
+.. code-block:: text
+
+   PUT /password-reset/set-password
+
+JSON body: ``resetToken`` (token from the e-mail) and ``password`` (the new
+password, must meet the password strength requirements). If ``password`` is
+omitted, the request only validates the token: ``200`` = valid, ``400`` =
+invalid.
 
 Two-factor authentication (2FA)
 --------------------------------

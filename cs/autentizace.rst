@@ -31,7 +31,8 @@ heslo. Získání tokenu:
 
    POST /login-logout/login.json
 
-Tělo požadavku (raw JSON, ne formulářová data):
+Tělo požadavku může být raw JSON nebo ``application/x-www-form-urlencoded``
+(pole ``username``, ``password``, případně ``otp``):
 
 .. code-block:: json
 
@@ -50,7 +51,9 @@ přihlášení). Metoda vrací výsledek pouze ve formátu JSON.
 
    {
        "success": true,
-       "authSessionId": "00112233445566778899aabbccddeeff..."
+       "authSessionId": "00112233445566778899aabbccddeeff...",
+       "refreshToken": "4f133f49-...:c42cf011-...",
+       "csrfToken": "f30ad42d-..."
    }
 
 Neúspěšná odpověď:
@@ -59,13 +62,14 @@ Neúspěšná odpověď:
 
    {
        "success": false,
-       "errors": {"reason": "Bylo zadáno chybné uživatelské jméno či heslo."}
+       "errors": {"reason": "Bylo zadáno chybné uživatelské jméno či heslo."},
+       "messageCode": "..."
    }
 
 Získaný token lze u dalších požadavků předávat třemi způsoby:
 
 - Cookie: ``authSessionId=00112233...``
-- HTTP hlavička: ``X-authSessionId: 00112233...``
+- HTTP hlavička: ``X-authSessionId: 00112233...`` (doporučený způsob)
 - URL parametr: ``?authSessionId=00112233...`` (pozor: v tomto případě se
   přihlašovací údaje logují na serveru)
 
@@ -74,6 +78,9 @@ Aby token zůstal platný, je potřeba jej udržovat pravidelným voláním
 stačí i jednou za 30 minut). Pokud máte k dispozici ``refreshToken``, lze
 nové ``authSessionId`` získat i requestem ``GET /login-logout/check`` s tímto
 tokenem v cookie.
+
+Po vypršení relace server požadavky přesměruje na
+``/login-logout/remote-logout`` a je nutné se přihlásit znovu.
 
 Odhlášení konkrétního uživatele:
 
@@ -91,7 +98,39 @@ nebo SAMLv2 — tuto metodu nelze použít).
    Praktická poznámka: u některých HTTP klientů (curl, Postman) je pro
    ``/login-logout/login.json`` nutné nastavit hlavičku
    ``application/x-www-form-urlencoded`` nebo ``multipart/form-data``, jinak
-   tělo požadavku nemusí být správně rozpoznáno.
+   tělo požadavku nemusí být správně rozpoznáno. V Postmanu nejprve zrušte
+   dříve nastavenou autentizaci na záložce Auth.
+
+.. note::
+
+   SSO přes SAMLv2 a OpenID je dostupné pouze na lokálních instalacích,
+   závisí na licenci a nastavuje se na ``/admin/auth-settings``.
+
+Zdroj: `Autentizace
+<https://podpora.flexibee.eu/cs/articles/4713880-autentizace>`_,
+`Vygenerování autentizačního tokenu
+<https://podpora.flexibee.eu/cs/articles/3422248-vygenerovani-autentizacniho-tokenu>`_.
+
+Reset hesla
+-----------
+
+Dvoukrokový reset hesla:
+
+.. code-block:: text
+
+   PUT /password-reset/send-email
+
+Tělo je JSON s jediným polem ``email``. Vyžaduje nastavený SMTP server;
+z bezpečnostních důvodů API nevrací chybu, pokud e-mail nepatří žádnému
+uživateli. Na adresu přijde reset token.
+
+.. code-block:: text
+
+   PUT /password-reset/set-password
+
+JSON tělo: ``resetToken`` (token z e-mailu) a ``password`` (nové heslo, musí
+splňovat požadavky na sílu hesla). Pokud ``password`` chybí, požadavek token
+pouze ověří: ``200`` = platný, ``400`` = neplatný.
 
 Dvoufázové ověření (2FA)
 ------------------------
