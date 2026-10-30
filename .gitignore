@@ -2,6 +2,8 @@
 cs/_build/
 en/_build/
 _build/
+**/__pycache__/
+*.py[cod]
 
 # Debian packaging build artifacts
 debian/abraflexi-api-doc-cs/

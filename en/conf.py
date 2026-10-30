@@ -1,11 +1,21 @@
 """Sphinx configuration for the standalone AbraFlexi REST API reference (English)."""
 
+from pathlib import Path
+
 project = "AbraFlexi REST API Reference"
 copyright = "2026, content adapted and translated from podpora.flexibee.eu, compiled by VitexSoftware"
 author = "VitexSoftware"
 
-version = "1.1"
-release = "1.1"
+def _debian_upstream_version() -> str:
+    """Keep the footer version in sync with debian/changelog."""
+    changelog = Path(__file__).resolve().parent.parent / "debian" / "changelog"
+    first = changelog.read_text(encoding="utf-8").splitlines()[0]
+    # abraflexi-api-doc (1.2.0-1) unstable; urgency=medium
+    inside = first.split("(", 1)[1].split(")", 1)[0]
+    return inside.rsplit("-", 1)[0]
+
+
+version = release = _debian_upstream_version()
 
 extensions = []
 

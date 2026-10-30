@@ -10,10 +10,11 @@ and cross-checked against the reference
 [PHP AbraFlexi library](https://github.com/Spoje-NET/php-abraflexi). Examples
 throughout use JSON.
 
-Available in two languages, each producing its own Debian package:
+Available in two languages, each producing its own Debian package, and
+published online:
 
-- `cs/` → `abraflexi-api-doc-cs` (Czech)
-- `en/` → `abraflexi-api-doc-en` (English)
+- `cs/` → `abraflexi-api-doc-cs` (Czech) — https://vitexsoftware.com/abraflexi-api-doc-cs/
+- `en/` → `abraflexi-api-doc-en` (English) — https://vitexsoftware.com/abraflexi-api-doc-en/
 
 ## Building the HTML docs
 

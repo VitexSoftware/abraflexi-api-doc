@@ -38,6 +38,7 @@ warehouse internals, etc.) or the XML schema — examples throughout use
    custom_button
    payment_matching
    selling_price_recalculation
+   price_list_tree
    stock_recalculation
    bill_of_materials
    contracts
@@ -70,5 +71,7 @@ Basic URL shape:
 Resources
 ---------
 
+- This guide online: https://vitexsoftware.com/abraflexi-api-doc-en/
+  (Czech: https://vitexsoftware.com/abraflexi-api-doc-cs/)
 - Official documentation: https://podpora.flexibee.eu/cs/collections/2592813-dokumentace-rest-api
 - Demo instance: https://demo.flexibee.eu (user/password ``winstrom``/``winstrom``)

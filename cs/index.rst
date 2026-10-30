@@ -38,6 +38,7 @@ schéma — příklady všude používají formát **JSON**.
    uzivatelske_tlacitko
    parovani_plateb
    prepocet_prodejnich_cen
+   strom_ceniku
    prepocet_skladu
    kusovnik
    smlouvy
@@ -69,5 +70,7 @@ Základní tvar URL:
 Zdroje
 ------
 
+- Tato příručka online: https://vitexsoftware.com/abraflexi-api-doc-cs/
+  (anglicky: https://vitexsoftware.com/abraflexi-api-doc-en/)
 - Oficiální dokumentace: https://podpora.flexibee.eu/cs/collections/2592813-dokumentace-rest-api
 - Demo instance: https://demo.flexibee.eu (uživatel/heslo ``winstrom``/``winstrom``)
