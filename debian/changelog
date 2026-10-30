@@ -1,3 +1,12 @@
+abraflexi-api-doc (1.2.2-1) unstable; urgency=medium
+
+  * Add price list tree (strom ceníku) chapter from podpora.flexibee.eu
+    article 5615241.
+  * Sync Sphinx footer version from debian/changelog; link published
+    HTML docs in README.
+
+ -- Vítězslav Dvořák <info@vitexsoftware.cz>  Fri, 30 Oct 2026 21:45:03 +0100
+
 abraflexi-api-doc (1.2.1-1) unstable; urgency=medium
 
   * Document password reset API (send-email, set-password) and expand
