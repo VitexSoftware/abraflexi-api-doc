@@ -33,6 +33,7 @@ warehouse internals, etc.) or the XML schema — examples throughout use
    batch_transactions
    attachments
    changes_api
+   webhooks
    company_management
    labels_attributes_relations
    custom_button

@@ -33,6 +33,7 @@ schéma — příklady všude používají formát **JSON**.
    davky_transakce
    prilohy
    changes_api
+   webhooks
    sprava_firem
    stitky_atributy_vazby
    uzivatelske_tlacitko
