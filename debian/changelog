@@ -1,3 +1,15 @@
+abraflexi-api-doc (1.3.0-1) unstable; urgency=medium
+
+  * Add chapters: Web Hooks, advance and ZDD deduction, credit notes and
+    overpayments, VAT return / control statement / recapitulative statement.
+  * Authentication: document removal of X-FlexiBee-Authorization
+    impersonation (2026.5.0), the "API access" user flag, AUTOMATIC user
+    type and /u XML/JSON management.
+  * Requests: document no-comments, mode=simple, access-attribs, as-gui,
+    no-order, only-issues, label presence filters and if-not-found=create.
+
+ -- Vítězslav Dvořák <info@vitexsoftware.cz>  Fri, 20 Nov 2026 12:00:00 +0100
+
 abraflexi-api-doc (1.2.2-1) unstable; urgency=medium
 
   * Add price list tree (strom ceníku) chapter from podpora.flexibee.eu
