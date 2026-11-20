@@ -40,6 +40,9 @@ warehouse internals, etc.) or the XML schema — examples throughout use
    payment_matching
    selling_price_recalculation
    price_list_tree
+   advances_zdd
+   credit_notes_overpayments
+   vat_returns
    stock_recalculation
    bill_of_materials
    contracts

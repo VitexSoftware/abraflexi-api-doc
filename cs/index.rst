@@ -40,6 +40,9 @@ schéma — příklady všude používají formát **JSON**.
    parovani_plateb
    prepocet_prodejnich_cen
    strom_ceniku
+   odpocet_zaloh_zdd
+   dobropisy_preplatky
+   dph_hlaseni
    prepocet_skladu
    kusovnik
    smlouvy
