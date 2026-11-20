@@ -163,3 +163,68 @@ resulting representation the record would have if saved (including a
 temporarily-assigned, immediately-released ID) plus any ``warnings``.
 Available in both JSON and XML. Combines with the "previous value"
 mechanism (see :doc:`writing_data`) when building interactive edit forms.
+
+Additional URL parameters
+-------------------------
+
+Boolean parameters can also be written without a value (``?no-ids`` instead
+of ``?no-ids=true``). Sources: ABRA Flexi desktop release notes for versions
+2021.6.0, 2023.1.0, 2023.6, 2026.6.0, 2026.7.0 and 2026.7.1 at
+`podpora.flexibee.eu
+<https://podpora.flexibee.eu/cs/collections/2551642-verze-desktopove-aplikace>`_
+(in Czech).
+
+.. list-table::
+   :header-rows: 1
+   :widths: 24 12 64
+
+   * - Parameter
+     - Since
+     - Meaning
+   * - ``no-comments``
+     - 2021.6.0
+     - Suppresses comments in the XML output.
+   * - ``mode=simple``
+     - 2021.6.0
+     - Minimal export without the ``ref`` and ``showAs`` attributes (and,
+       in XML, without explanatory comments). Since 2026.7.0 an invalid
+       ``mode`` value returns ``400`` listing the allowed values (previously
+       ``500``).
+   * - ``access-attribs=true``
+     - 2023.6
+     - For collections, outputs the ``insertable`` attribute — whether a new
+       item can be added to the collection.
+   * - ``as-gui=true``
+     - 2023.1.0
+     - More user-friendly error messages. Since 2026.7.0 the response to a
+       save returns the document and items as stored in the database
+       (including the price after revaluation). Since 2026.7.1, when the
+       database rejects the save, it returns ``400`` with a message instead
+       of ``500``.
+   * - ``no-order=true``
+     - 2026.6.0
+     - Disables the default record ordering (records come back in database
+       order) — for fast reads of large collections. Cannot be combined with
+       ``order``, ``sort`` or ``start``.
+   * - ``only-issues=true``
+     - 2026.7.0
+     - ``PUT``/``POST`` only: ``results`` contains only records with an
+       error, a warning or an unanswered question. Useful for large imports.
+
+Filter by label presence (since 2026.6.0):
+
+.. code-block:: text
+
+   stitky is empty
+   stitky is not empty
+
+It also works through a relation, e.g. ``dodavatel.stitky is empty``.
+
+Since 2026.6.5, import with ``if-not-found=create`` (including Excel import)
+creates the missing record with a code following the rules of the target
+evidence; previously the code was truncated to the length of the imported
+document's code.
+
+Attachments of related objects are no longer part of the ``full`` detail
+(since 2026.6.0); use ``detail=custom``. The ``relations=prilohy`` parameter
+works unchanged.

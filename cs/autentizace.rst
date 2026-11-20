@@ -190,10 +190,56 @@ Pro důvěryhodné server-to-server integrace na vlastní instalaci lze vytvoři
      <entry key="password">heslo</entry>
    </properties>
 
-Poté lze hlavičkou ``X-FlexiBee-Authorization`` určit, pod kterým uživatelem
-má být požadavek zpracován (impersonace). Tato funkce je plánovaná k náhradě
-autentizací pomocí SSL klientského certifikátu; import SSL certifikátu přes
-API je s touto autorizací možný i bez přihlášení uživatele.
+.. warning::
+
+   Od verze **2026.5.0** byla z bezpečnostních důvodů **bez náhrady
+   zrušena impersonace** při serverové autentizaci. Hlavička
+   ``X-FlexiBee-Authorization``, kterou se sezení mohlo prohlásit za
+   konkrétního uživatele, se již neuplatní. Integrace, které ji používaly,
+   se musí přihlašovat pod skutečným uživatelským účtem. Zdroj:
+   `novinky ve verzi 2026.5.0
+   <https://podpora.flexibee.eu/cs/articles/16537283-desktopova-aplikace-novinky-ve-verzi-2026-5-0>`_.
+
+Ve starších verzích lze hlavičkou ``X-FlexiBee-Authorization`` určit, pod
+kterým uživatelem má být požadavek zpracován (impersonace). Tato funkce byla
+plánovaná k náhradě autentizací pomocí SSL klientského certifikátu; import
+SSL certifikátu přes API je s touto autorizací možný i bez přihlášení
+uživatele.
+
+Přístup k API a typy uživatelů
+------------------------------
+
+Zdroj: `novinky ve verzi 2025.5.0
+<https://podpora.flexibee.eu/cs/articles/11521098-desktopova-aplikace-novinky-ve-verzi-2025-5-0>`_,
+`2025.9.1
+<https://podpora.flexibee.eu/cs/articles/13038409-desktopova-aplikace-novinky-ve-verzi-2025-9-1>`_.
+
+- API volání je povoleno jen uživatelům typu **REST API** a uživatelům typu
+  *Normální* a *Pouze pro čtení* se zapnutým příznakem **„Přístup k API“**.
+- Volání uživatelem typu Normální/Pouze pro čtení bez příznaku je od
+  **1. 7. 2025** blokováno. Do té doby se příznak automaticky zapínal, pokud
+  měla licence zakoupený přístup k API.
+- Pro zapnutí příznaku i pro založení uživatele REST API musí mít licence
+  zakoupený přístup k API.
+- Pro nová napojení doporučuje výrobce zakládat dedikované uživatele typu
+  REST API; jejich počet není omezen.
+- Uživatel typu **AUTOMATIC** (tento typ dostanou po obnově zálohy všichni
+  nezablokovaní uživatelé) se od 2025.9.1 může použít jen pro přihlášení
+  přes aplikaci; API komunikace neproběhne.
+- ``lastLoginDate`` a ``lastApiDate`` jsou vidět v ``/u.json?detail=full``.
+
+Správa uživatelů přes ``/u``
+----------------------------
+
+Od verze 2026.5.0 přijímá endpoint ``/u`` pro vytvoření uživatele data i
+v XML a JSON (dříve jen formulářová data nebo parametry v URL). Endpoint
+``/u/{userId}`` pro úpravu rozumí také XML a umí měnit i oprávnění; je
+funkčně shodný s ``/c/{firma}/uzivatel/update``.
+
+Heslo osoby se drží jen na hlavičce osoby a propisuje se stejně z aplikace
+i z API. Přes API ho lze smazat prázdnou hodnotou vlastnosti ``password`` a
+lze ho zadat už při zakládání nového zaměstnance. Právo měnit cizí hesla se
+řídí výhradně právem *Změna hesla*.
 
 Přístupová práva a role
 ----------------------------

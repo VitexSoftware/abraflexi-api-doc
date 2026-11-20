@@ -192,10 +192,59 @@ For trusted server-to-server integrations on a self-hosted install, create
      <entry key="password">password</entry>
    </properties>
 
-Then the ``X-FlexiBee-Authorization`` header can specify which user the
-request should be processed as (impersonation). This feature is planned to
-be superseded by SSL client-certificate authentication; SSL certificate
-import via the API is possible without a logged-in user using this server auth.
+.. warning::
+
+   Since version **2026.5.0**, impersonation under server authentication
+   has been **removed without replacement** for security reasons. The
+   ``X-FlexiBee-Authorization`` header, which let a session claim to be a
+   specific user, no longer has any effect. Integrations that used it must
+   log in as a real user account. Source: `release notes 2026.5.0
+   <https://podpora.flexibee.eu/cs/articles/16537283-desktopova-aplikace-novinky-ve-verzi-2026-5-0>`_
+   (in Czech).
+
+In older versions the ``X-FlexiBee-Authorization`` header can specify which
+user the request should be processed as (impersonation). This feature was
+planned to be superseded by SSL client-certificate authentication; SSL
+certificate import via the API is possible without a logged-in user using
+this server auth.
+
+API access and user types
+-------------------------
+
+Source: release notes `2025.5.0
+<https://podpora.flexibee.eu/cs/articles/11521098-desktopova-aplikace-novinky-ve-verzi-2025-5-0>`_
+and `2025.9.1
+<https://podpora.flexibee.eu/cs/articles/13038409-desktopova-aplikace-novinky-ve-verzi-2025-9-1>`_
+(in Czech).
+
+- API calls are allowed only for users of type **REST API** and for users
+  of type *Normal* and *Read-only* with the **"API access"** flag enabled.
+- Calls by a Normal/Read-only user without the flag are blocked from
+  **1 July 2025**. Until then the flag was switched on automatically if the
+  licence included API access.
+- Enabling the flag, and creating a REST API user, requires API access to be
+  purchased in the licence.
+- For new integrations the vendor recommends dedicated REST API users; their
+  number is not limited.
+- A user of type **AUTOMATIC** (assigned to all non-blocked users after a
+  backup restore) can, since 2025.9.1, only be used to log in through the
+  application; API communication does not work.
+- ``lastLoginDate`` and ``lastApiDate`` are visible in
+  ``/u.json?detail=full``.
+
+User management via ``/u``
+--------------------------
+
+Since 2026.5.0 the ``/u`` endpoint for creating a user also accepts XML and
+JSON (previously only form data or URL parameters). ``/u/{userId}`` for
+editing also understands XML and can change permissions; it is functionally
+identical to ``/c/{company}/uzivatel/update``.
+
+A person's password is held only on the person header and is applied the
+same way from the application and from the API. Via the API it can be
+cleared with an empty ``password`` property, and it can be set already when
+creating a new employee. The right to change other users' passwords is
+governed solely by the *Change password* right.
 
 Access rights and roles
 ----------------------------

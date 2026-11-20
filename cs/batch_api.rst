@@ -44,8 +44,9 @@ Autorizace
    * - Přihlášený administrátor
      - Jen verzeované cesty; cizí licenční skupina → ``FAILED``.
 
-Impersonace po serverové autorizaci: hlavička
-``X-FlexiBee-Authorization: username``.
+Impersonace po serverové autorizaci (hlavička
+``X-FlexiBee-Authorization: username``) byla ve verzi 2026.5.0 bez náhrady
+zrušena, viz :doc:`autentizace`.
 
 Ukázka dávky
 ------------

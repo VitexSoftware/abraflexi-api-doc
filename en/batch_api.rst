@@ -45,8 +45,9 @@ Authorization
    * - Logged-in administrator
      - Versioned paths only; foreign licence groups → ``FAILED``.
 
-Impersonation after server auth: header
-``X-FlexiBee-Authorization: username``.
+Impersonation after server auth (header
+``X-FlexiBee-Authorization: username``) was removed without replacement in
+version 2026.5.0, see :doc:`authentication`.
 
 Sample batch
 ------------
